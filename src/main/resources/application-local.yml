@@ -1,0 +1,23 @@
+# Spring configurations
+spring:
+  main:
+    allow-bean-definition-overriding: false
+  # Database
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ecommerce-db?useSSL=false
+    username: postgres
+    password: postgres
+
+  # JPA properties
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    generate-ddl: true
+    database: postgresql
+
+#Token configuration
+jwt:
+  secret: ======================BezKoder=Spring===========================
+  expiration: 120000
+  refreshExpiration: 240000

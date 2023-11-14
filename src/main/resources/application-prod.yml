@@ -1,0 +1,25 @@
+# Spring configurations
+spring:
+  profiles:
+    active: "´prod"
+  main:
+    allow-bean-definition-overriding: false
+  # Database
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+  # JPA properties
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    generate-ddl: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+#Token configuration
+jwt:
+  secret: ======================BezKoder=Spring===========================
+  expiration: 86400000
+  refreshExpiration: 172800000
