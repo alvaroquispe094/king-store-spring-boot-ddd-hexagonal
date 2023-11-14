@@ -3,7 +3,6 @@ package com.groupal.king.store.auth.security.jwt;
 import com.groupal.king.store.auth.security.services.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,13 +41,8 @@ public class JwtUtils {
 
     public String getUserNameFromJwtToken(String token) {
       return Jwts.parserBuilder()
-              .setSigningKey(key())
+              .setSigningKey(getSignInKey())
               .build().parseClaimsJws(token).getBody().getSubject();
-    }
-
-    private Key key() {
-        var keyBytes = Decoders.BASE64.decode(jwtSecret);
-        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     private Key getSignInKey() {
@@ -56,20 +50,9 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    /*
-    private Key key() {
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
-    }
-*/
-
-    /*private String key() {
-        var key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-        return Encoders.BASE64.encode(key.getEncoded());
-    }*/
-
     public boolean validateJwtToken(String authToken) {
       try {
-          Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+          Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parse(authToken);
         return true;
       } catch (MalformedJwtException e) {
         logger.error("Invalid JWT token: {}", e.getMessage());

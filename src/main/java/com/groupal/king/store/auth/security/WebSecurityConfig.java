@@ -2,6 +2,7 @@ package com.groupal.king.store.auth.security;
 
 import com.groupal.king.store.auth.security.jwt.AuthEntryPointJwt;
 import com.groupal.king.store.auth.security.jwt.AuthTokenFilter;
+import com.groupal.king.store.auth.security.jwt.DeniedEntryPointJwt;
 import com.groupal.king.store.auth.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,9 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,15 +22,21 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 
 @Configuration
 @EnableMethodSecurity
-//(securedEnabled = true,
-//jsr250Enabled = true,
-//prePostEnabled = true)
 public class WebSecurityConfig {
+
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
+
+    @Autowired
+    private DeniedEntryPointJwt forbiddenHandler;
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -51,11 +58,6 @@ public class WebSecurityConfig {
         return authConfig.getAuthenticationManager();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     private static final String[] WHITE_LIST_URL = {"/api/v1/auth/**",
             "/v2/api-docs",
             "/v3/api-docs",
@@ -70,24 +72,23 @@ public class WebSecurityConfig {
 
 	@Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
+        http.csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-                .authorizeHttpRequests(req ->
-                    //req.requestMatchers(WHITE_LIST_URL)
-                    //.permitAll()
-                        req
-                    .requestMatchers("/api/v1/auth/signin","/api/v1/auth/signup", "/api/v1/auth/refresh").permitAll()
-                    .requestMatchers("/api/v1/user/**").hasAnyAuthority("ROLE_USER","ROLE_MODERATOR", "ROLE_ADMIN")
-                    .requestMatchers("/api/v1/mod/**").hasAnyAuthority("ROLE_MODERATOR", "ROLE_ADMIN")
-                    .requestMatchers("/api/v1/product/**").hasAnyAuthority("ADMIN")
-                    .anyRequest()
-                    .authenticated()
+                .authorizeHttpRequests(req -> req
+                        .requestMatchers(WHITE_LIST_URL)
+                        .permitAll()
+                        .requestMatchers("/api/v1/auth/signin","/api/v1/auth/signup", "/api/v1/auth/refresh", "/api/v1/auth/signout").permitAll()
+                        .requestMatchers("/api/v1/user/**").hasAnyAuthority("ROLE_USER","ROLE_MODERATOR", "ROLE_ADMIN")
+                        .requestMatchers("/api/v1/mod/**").hasAnyAuthority("ROLE_MODERATOR", "ROLE_ADMIN")
+                        .requestMatchers("/api/v1/product/**").hasAnyAuthority("ADMIN")
+                        .anyRequest()
+                        .authenticated()
 
-            )
-            .authenticationProvider(authenticationProvider())
-            .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
+                )
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(exception -> exception.accessDeniedHandler(forbiddenHandler));
 
         return http.build();
     }

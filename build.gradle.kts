@@ -63,6 +63,10 @@ dependencies {
 	testImplementation("org.springframework.security:spring-security-test")
 }
 
+tasks.withType<JavaCompile> {
+	options.isDeprecation = true
+}
+
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
