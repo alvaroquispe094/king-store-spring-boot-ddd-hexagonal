@@ -1,9 +1,9 @@
-package com.groupal.king.store.products.adapter.database;
+package com.groupal.king.store.catalog.adapter.database;
 
-import com.groupal.king.store.products.adapter.database.model.ProductModel;
-import com.groupal.king.store.products.adapter.database.repository.ProductDataRepository;
-import com.groupal.king.store.products.application.port.out.ProductRepository;
-import com.groupal.king.store.products.domain.Product;
+import com.groupal.king.store.catalog.adapter.database.model.CategoryModel;
+import com.groupal.king.store.catalog.adapter.database.repository.CategoryDataRepository;
+import com.groupal.king.store.catalog.application.port.out.CategoryRepository;
+import com.groupal.king.store.catalog.domain.Category;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -14,32 +14,32 @@ import java.util.stream.Collectors;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-public class ProductDbAdapter implements ProductRepository {
+public class CategoryDbAdapter implements CategoryRepository {
 
-    private final ProductDataRepository repository;
+    private final CategoryDataRepository repository;
 
     @Override
-    public List<Product> findAll() {
+    public List<Category> findAll() {
         log.info(">> Get all products from DB");
 
         var results = repository.findAll()
                 .stream()
-                .map(ProductModel::toDomain)
+                .map(CategoryModel::toDomain)
                 .collect(Collectors.toList());
 
-        log.info("<< Get all products with response: {}", results);
+        log.info("<< Get all categories with response: {}", results);
         return results;
     }
 
     @Override
-    public Product createProduct(Product product) {
-        log.info(">> Create product with: {}", product);
+    public Category createCategory(Category category) {
+        log.info(">> Create category with: {}", category);
 
-        ProductModel productModel = ProductModel.fromDomain(product);
-        var response = repository.save(productModel);
+        CategoryModel categoryModel = CategoryModel.fromDomain(category);
+        var response = repository.save(categoryModel);
 
-        log.info("Saving in db a product with response {}", response);
-        return product;
+        log.info("Saving in db a category with response {}", response);
+        return category;
     }
 
     /*

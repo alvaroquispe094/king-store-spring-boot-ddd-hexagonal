@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -87,10 +88,14 @@ public class WebSecurityConfig {
             .authorizeHttpRequests(req -> req
                     .requestMatchers(WHITE_LIST_URL)
                     .permitAll()
-                    .requestMatchers("/api/v1/auth/signin","/api/v1/auth/signup", "/api/v1/auth/refresh", "/api/v1/auth/signout").permitAll()
-                    .requestMatchers("/api/v1/user/**").hasAnyAuthority("ROLE_USER","ROLE_MODERATOR", "ROLE_ADMIN")
+                    //PUBLIC
+                    .requestMatchers("/api/v1/auth/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/v1/catalog/products", "/api/v1/catalog/products/**").permitAll()
+
+                    //PRIVATE
+                    .requestMatchers("/api/v1/user/**").hasAnyAuthority("ROLE_CUSTOMER","ROLE_MODERATOR", "ROLE_ADMIN")
                     .requestMatchers("/api/v1/mod/**").hasAnyAuthority("ROLE_MODERATOR", "ROLE_ADMIN")
-                    .requestMatchers("/api/v1/products","/api/v1/products/**").hasAuthority("ROLE_ADMIN")
+                    .requestMatchers("/api/v1/catalog/**").hasAuthority("ROLE_ADMIN")
                     .anyRequest()
                     .authenticated()
 

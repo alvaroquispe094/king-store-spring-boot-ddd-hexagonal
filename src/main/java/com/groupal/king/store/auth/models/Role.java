@@ -4,14 +4,14 @@ package com.groupal.king.store.auth.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "roles", schema = "users")
 public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Enumerated(EnumType.STRING)
-	@Column(length = 20)
+	@Column(length = 40)
 	private ERole name;
 
 	public Role() {

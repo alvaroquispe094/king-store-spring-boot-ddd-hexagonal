@@ -2,7 +2,8 @@ package com.groupal.king.store.config;
 
 public enum ErrorCode {
 
-    BAD_REQUEST(105,"105", "La request esta mal formateada", "MS-SEED-BAD_REQUEST"),
+    NOT_FOUND_EXCEPTION(104, "104", "No se encontro el recurso", "NOT_FOUND_EXCEPTION"),
+    BAD_REQUEST(105,"105", "La request esta mal formateada", "BAD_REQUEST"),
     INVALID_PARAMETERS_ERROR(110,"110", "{}", "MS-SEED-INVALID_PARAMETERS"),
     WEB_CLIENT_GENERIC(103,"103", "Unexpected rest client error", "MS-SEED-INTERNAL_SERVER_ERROR"),
     KAFKA_EXCEPTION(109,"109", "Error interno de kafka", "MS-SEED-KAFKA_EXCEPTION"),

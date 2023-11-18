@@ -1,8 +1,8 @@
-package com.groupal.king.store.products.application.usecase;
+package com.groupal.king.store.catalog.application.usecase;
 
-import com.groupal.king.store.products.application.port.in.GetProductsQuery;
-import com.groupal.king.store.products.application.port.out.ProductRepository;
-import com.groupal.king.store.products.domain.Product;
+import com.groupal.king.store.catalog.application.port.in.GetProductsQuery;
+import com.groupal.king.store.catalog.application.port.out.ProductRepository;
+import com.groupal.king.store.catalog.domain.Product;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

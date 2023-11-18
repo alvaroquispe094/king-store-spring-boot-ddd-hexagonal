@@ -1,4 +1,4 @@
-package com.groupal.king.store.products.domain;
+package com.groupal.king.store.catalog.domain;
 
 import lombok.Builder;
 import lombok.Value;

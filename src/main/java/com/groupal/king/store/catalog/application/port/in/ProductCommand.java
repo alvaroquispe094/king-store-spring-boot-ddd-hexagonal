@@ -1,7 +1,7 @@
-package com.groupal.king.store.products.application.port.in;
+package com.groupal.king.store.catalog.application.port.in;
 
 
-import com.groupal.king.store.products.domain.Product;
+import com.groupal.king.store.catalog.domain.Product;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Value;

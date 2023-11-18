@@ -1,6 +1,6 @@
-package com.groupal.king.store.products.adapter.database.model;
+package com.groupal.king.store.catalog.adapter.database.model;
 
-import com.groupal.king.store.products.domain.Product;
+import com.groupal.king.store.catalog.domain.Product;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "product")
+@Table(name = "products", schema = "catalog")
 public class ProductModel {
 
     @Id

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.groupal.king.store.common.exception.NotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
@@ -12,11 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-
 import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.Optional;
 
 @Slf4j
 @ControllerAdvice
@@ -40,18 +37,11 @@ public class ErrorHandler {
         return buildResponseError(HttpStatus.BAD_REQUEST,ex, ErrorCode.INVALID_PARAMETERS_ERROR);
     }
 
-    private ResponseEntity<ErrorResponse> buildCustomResponseError(HttpStatus httpStatus, ErrorCode errorCode, String customDescription) {
-        final var response = ErrorResponse.builder()
-                .errorInternalCode(errorCode.value())
-                .errorDescription(customDescription)
-                .errorCode(errorCode.getCode())
-                .build();
-
-        return new ResponseEntity<>(response, httpStatus);
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorResponse> handle(NotFoundException ex) {
+        log.error(ErrorCode.NOT_FOUND_EXCEPTION.getCode(), ex);
+        return buildResponseError(HttpStatus.BAD_REQUEST, ex, ErrorCode.NOT_FOUND_EXCEPTION);
     }
-
-
-
 
 
     @Builder
@@ -80,10 +70,7 @@ public class ErrorHandler {
         private String resource;
         @JsonProperty
         private String detail;
-        @JsonProperty
-        private Map<String, String> metadata;
     }
-
 
     private ResponseEntity<ErrorResponse> buildResponseError(HttpStatus httpStatus, Throwable ex, ErrorCode errorCode) {
 

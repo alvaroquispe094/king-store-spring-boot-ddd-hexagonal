@@ -20,6 +20,6 @@ spring:
 
 #Token configuration
 jwt:
-  secret: ======================BezKoder=Spring===========================
-  expiration: 86400000
-  refreshExpiration: 172800000
+  secret: =========================KING=STORE=============================
+  expiration: 1800000
+  refreshExpiration: 2700000
