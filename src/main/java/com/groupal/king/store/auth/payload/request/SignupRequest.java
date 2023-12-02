@@ -3,10 +3,20 @@ package com.groupal.king.store.auth.payload.request;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 import java.util.Set;
- 
+
+@Data
 public class SignupRequest {
+    @NotBlank
+    @Size(min = 3, max = 20)
+    private String firstname;
+
+    @NotBlank
+    @Size(min = 3, max = 20)
+    private String lastname;
+
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;
@@ -15,6 +25,18 @@ public class SignupRequest {
     @Size(max = 50)
     @Email
     private String email;
+
+    @NotBlank
+    @Size(min = 3, max = 20)
+    private String gender;
+
+    @NotBlank
+    @Size(min = 3, max = 20)
+    private String birthDate;
+
+    @NotBlank
+    @Size(min = 3, max = 20)
+    private String phone;
     
     private Set<String> role;
     
