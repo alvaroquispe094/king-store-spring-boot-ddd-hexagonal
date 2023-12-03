@@ -58,7 +58,7 @@ public class AuthController {
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager
-            .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+            .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -93,8 +93,8 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-          return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+        if (userRepository.existsByUsername(signUpRequest.getEmail())) {
+          return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already taken!"));
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
@@ -102,7 +102,7 @@ public class AuthController {
         }
 
         // Create new user's account
-        User user = new User(signUpRequest.getFirstname(), signUpRequest.getLastname(), signUpRequest.getUsername(), signUpRequest.getEmail(),
+        User user = new User(signUpRequest.getFirstname(), signUpRequest.getLastname(), signUpRequest.getEmail(), signUpRequest.getEmail(),
             encoder.encode(signUpRequest.getPassword()), signUpRequest.getGender(), signUpRequest.getBirthDate(), signUpRequest.getPhone());
 
         Set<String> strRoles = signUpRequest.getRole();
