@@ -96,7 +96,12 @@ public class WebSecurityConfig {
                     .permitAll()
                     //PUBLIC
                     .requestMatchers("/api/v1/auth/**").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/api/v1/catalog/products", "/api/v1/catalog/products/**").permitAll()
+                    .requestMatchers(HttpMethod.GET,
+                            "/api/v1/catalog/products",
+                            "/api/v1/catalog/products/**",
+                            "/api/v1/catalog/categories"
+                    )
+                    .permitAll()
 
                     //PRIVATE
                     .requestMatchers("/api/v1/user/**").hasAnyAuthority("ROLE_CUSTOMER","ROLE_MODERATOR", "ROLE_ADMIN")
