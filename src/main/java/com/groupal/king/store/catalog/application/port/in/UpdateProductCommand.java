@@ -7,9 +7,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Value;
 
-public interface ProductCommand {
+public interface UpdateProductCommand {
 
-    Product execute(Command command);
+    Product execute(Command command, Long id);
 
     @Value
     @Builder
@@ -28,9 +28,24 @@ public interface ProductCommand {
         @NotBlank(message = "Active mustn't be blank")
         Boolean active;
 
-
         public Product toDomain() {
             return Product.builder()
+                    .name(name)
+                    .description(description)
+                    .price(price)
+                    .image(image)
+                    .stock(stock)
+                    .category(Category.builder()
+                            .id(categoryId)
+                            .build()
+                    )
+                    .active(active)
+                    .build();
+        }
+
+        public Product toDomain(Long id) {
+            return Product.builder()
+                    .id(id)
                     .name(name)
                     .description(description)
                     .price(price)

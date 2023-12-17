@@ -1,10 +1,7 @@
 package com.groupal.king.store.catalog.adapter.database.model;
 
 import com.groupal.king.store.catalog.domain.Product;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,10 +16,9 @@ import lombok.NoArgsConstructor;
 public class ProductModel {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column
-    private String code;
     @Column
     private String name;
     @Column
@@ -33,32 +29,35 @@ public class ProductModel {
     private String image;
     @Column
     private Integer stock;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn( name="category_id")
+    private CategoryModel caterory;
     @Column
-    private Integer categoryId;
+    private Boolean active;
 
     public static ProductModel fromDomain(Product product){
         return ProductModel.builder()
                 .id(product.getId())
-                .code(product.getCode())
                 .name(product.getName())
                 .description(product.getDescription())
                 .price(product.getPrice())
                 .image(product.getImage())
                 .stock(product.getStock())
-                .categoryId(product.getCategoryId())
+                .caterory(CategoryModel.fromDomain(product.getCategory()))
+                .active(product.getActive())
                 .build();
     }
 
     public Product toDomain(){
         return Product.builder()
                 .id(id)
-                .code(code)
                 .name(name)
                 .description(description)
                 .price(price)
                 .image(image)
                 .stock(stock)
-                .categoryId(categoryId)
+                .category(caterory.toDomain())
+                .active(active)
                 .build();
     }
 }

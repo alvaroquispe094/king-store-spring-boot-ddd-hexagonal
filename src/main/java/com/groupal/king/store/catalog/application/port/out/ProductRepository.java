@@ -12,4 +12,6 @@ public interface ProductRepository {
 
     Product findById(Long id);
 
+    Product updateProduct(Product product);
+
 }

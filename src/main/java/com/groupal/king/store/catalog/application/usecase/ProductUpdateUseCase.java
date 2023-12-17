@@ -1,6 +1,6 @@
 package com.groupal.king.store.catalog.application.usecase;
 
-import com.groupal.king.store.catalog.application.port.in.ProductCommand;
+import com.groupal.king.store.catalog.application.port.in.UpdateProductCommand;
 import com.groupal.king.store.catalog.application.port.out.ProductRepository;
 import com.groupal.king.store.catalog.domain.Product;
 import lombok.RequiredArgsConstructor;
@@ -10,15 +10,15 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ProductCreateUseCase implements ProductCommand {
+public class ProductUpdateUseCase implements UpdateProductCommand {
 
     private final ProductRepository productRepository;
 
     @Override
-    public Product execute(Command command) {
-        log.info(">> Execute use case create product with request domain: {}", command.toDomain());
+    public Product execute(Command command, Long id) {
+        log.info(">> Execute use case update product with request domain: {}", command.toDomain());
 
-        var response = productRepository.createProduct(command.toDomain());
+        var response = productRepository.updateProduct(command.toDomain(id));
 
         log.info("<< Use case successfully processed with response domain: {}", response);
         return response;

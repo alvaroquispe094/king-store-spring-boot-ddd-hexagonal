@@ -4,6 +4,7 @@ import com.groupal.king.store.catalog.adapter.controller.model.ProductRest;
 import com.groupal.king.store.catalog.application.port.in.GetProductByIdQuery;
 import com.groupal.king.store.catalog.application.port.in.GetProductsQuery;
 import com.groupal.king.store.catalog.application.port.in.ProductCommand;
+import com.groupal.king.store.catalog.application.port.in.UpdateProductCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.List;
 public class ProductController {
 
     private final ProductCommand productCommand;
+    private final UpdateProductCommand updateProductCommand;
     private final GetProductsQuery getProductsQuery;
     private final GetProductByIdQuery getProductByIdQuery;
 
@@ -42,7 +44,7 @@ public class ProductController {
     }
 
     @PostMapping("")
-    public ProductRest createBook(@RequestBody ProductCommand.Command command) {
+    public ProductRest createProduct(@RequestBody ProductCommand.Command command) {
         log.info(">> Execute controller with body: {}", command);
 
         var product = productCommand.execute(command);
@@ -51,13 +53,18 @@ public class ProductController {
         log.info("<< Request successfully executed with response {}", response);
         return response;
     }
-/*
-    @PutMapping("/{id}")
-    public ProductRest updateBook(@PathVariable Integer id, @RequestBody BookDto bookDto) {
-        bookDto.setId(id);
-        return ResponseEntity.ok().body(this.bookService.updateBook(bookDto));
-    }
 
+    @PutMapping("/{id}")
+    public ProductRest updateProduct(@PathVariable Long id, @RequestBody UpdateProductCommand.Command command) {
+        log.info(">> Execute controller with body: {}", command);
+
+        var product = updateProductCommand.execute(command, id);
+        var response = ProductRest.fromDomain(product);
+
+        log.info("<< Request successfully executed with response {}", response);
+        return response;
+    }
+    /*
     @DeleteMapping("/{id}")
     public void deleteProductById(@PathVariable Integer id) {
         this.bookService.deleteBook(id);

@@ -41,7 +41,7 @@ public class ProductDbAdapter implements ProductRepository {
         var response = repository.save(productModel);
 
         log.info("Saving in db a product with response {}", response);
-        return product;
+        return response.toDomain();
     }
 
     @Override
@@ -54,5 +54,16 @@ public class ProductDbAdapter implements ProductRepository {
 
         log.info("<< Find product with response: {}", result);
         return result;
+    }
+
+    @Override
+    public Product updateProduct(Product product) {
+        log.info(">> Update product with: {}", product);
+
+        ProductModel productModel = ProductModel.fromDomain(product);
+        var response = repository.save(productModel);
+
+        log.info("Update in db a product with response {}", response);
+        return response.toDomain();
     }
 }

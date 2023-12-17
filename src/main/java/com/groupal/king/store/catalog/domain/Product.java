@@ -7,11 +7,11 @@ import lombok.Value;
 @Value
 public class Product {
     Long id;
-    String code;
     String name;
     String description;
     Double price;
     String image;
     Integer stock;
-    Integer categoryId;
+    Category category;
+    Boolean active;
 }
