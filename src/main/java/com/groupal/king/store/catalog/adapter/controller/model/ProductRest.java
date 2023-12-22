@@ -16,7 +16,7 @@ public class ProductRest {
     Double price;
     String image;
     Integer stock;
-    CategoryRest category;
+    String category;
     Boolean active;
 
     public static ProductRest fromDomain(Product product){
@@ -27,7 +27,7 @@ public class ProductRest {
                 .price(product.getPrice())
                 .image(product.getImage())
                 .stock(product.getStock())
-                .category(CategoryRest.fromDomain(product.getCategory()))
+                .category(product.getCategoryName())
                 .active(product.getActive())
                 .build();
     }

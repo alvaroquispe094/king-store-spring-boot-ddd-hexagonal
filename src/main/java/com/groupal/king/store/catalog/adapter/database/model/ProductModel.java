@@ -1,5 +1,6 @@
 package com.groupal.king.store.catalog.adapter.database.model;
 
+import com.groupal.king.store.catalog.domain.Category;
 import com.groupal.king.store.catalog.domain.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -43,7 +44,7 @@ public class ProductModel {
                 .price(product.getPrice())
                 .image(product.getImage())
                 .stock(product.getStock())
-                .caterory(CategoryModel.fromDomain(product.getCategory()))
+                .caterory(CategoryModel.fromDomain(Category.builder().id(product.getCategoryId()).build()))
                 .active(product.getActive())
                 .build();
     }
@@ -56,7 +57,8 @@ public class ProductModel {
                 .price(price)
                 .image(image)
                 .stock(stock)
-                .category(caterory.toDomain())
+                .categoryId(caterory.getId())
+                .categoryName(caterory.getName())
                 .active(active)
                 .build();
     }

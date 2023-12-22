@@ -1,7 +1,5 @@
 package com.groupal.king.store.catalog.application.port.in;
 
-
-import com.groupal.king.store.catalog.domain.Category;
 import com.groupal.king.store.catalog.domain.Product;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
@@ -36,10 +34,7 @@ public interface ProductCommand {
                     .price(price)
                     .image(image)
                     .stock(stock)
-                    .category(Category.builder()
-                            .id(categoryId)
-                            .build()
-                    )
+                    .categoryId(categoryId)
                     .active(active)
                     .build();
         }

@@ -12,6 +12,7 @@ public class Product {
     Double price;
     String image;
     Integer stock;
-    Category category;
+    Long categoryId;
+    String categoryName;
     Boolean active;
 }

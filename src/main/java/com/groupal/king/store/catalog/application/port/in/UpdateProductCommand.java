@@ -1,7 +1,5 @@
 package com.groupal.king.store.catalog.application.port.in;
 
-
-import com.groupal.king.store.catalog.domain.Category;
 import com.groupal.king.store.catalog.domain.Product;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
@@ -35,10 +33,7 @@ public interface UpdateProductCommand {
                     .price(price)
                     .image(image)
                     .stock(stock)
-                    .category(Category.builder()
-                            .id(categoryId)
-                            .build()
-                    )
+                    .categoryId(categoryId)
                     .active(active)
                     .build();
         }
@@ -51,12 +46,17 @@ public interface UpdateProductCommand {
                     .price(price)
                     .image(image)
                     .stock(stock)
-                    .category(Category.builder()
-                            .id(categoryId)
-                            .build()
-                    )
+                    .categoryId(categoryId)
                     .active(active)
                     .build();
         }
     }
+
+    /*@Value
+    @Builder
+    class CategoryCommand {
+        Long id;
+        //@NotBlank(message = "Name mustn't be blank")
+        String name;
+    }*/
 }

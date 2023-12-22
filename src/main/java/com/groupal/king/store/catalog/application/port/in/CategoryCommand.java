@@ -1,8 +1,6 @@
 package com.groupal.king.store.catalog.application.port.in;
 
-
 import com.groupal.king.store.catalog.domain.Category;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Value;
 
@@ -16,9 +14,9 @@ public interface CategoryCommand {
     @Builder
     class Command {
         Long id;
-        @NotBlank(message = "Code mustn't be blank")
+        //@NotBlank(message = "Code mustn't be blank")
         String code;
-        @NotBlank(message = "Name mustn't be blank")
+        //@NotBlank(message = "Name mustn't be blank")
         String name;
 
 
