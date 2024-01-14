@@ -22,8 +22,6 @@ public class CategoryModel {
     @Column(name = "id")
     private Long id;
     @Column
-    private String code;
-    @Column
     private String name;
     @Column
     private Boolean active;
@@ -36,7 +34,6 @@ public class CategoryModel {
     public static CategoryModel fromDomain(Category category){
         return CategoryModel.builder()
                 .id(category.getId())
-                .code(category.getCode())
                 .name(category.getName())
                 .active(category.getActive())
                 .createdAt(LocalDateTime.now())
@@ -46,7 +43,6 @@ public class CategoryModel {
     public Category toDomain(){
         return Category.builder()
                 .id(id)
-                .code(code)
                 .name(name)
                 .active(active)
                 .build();

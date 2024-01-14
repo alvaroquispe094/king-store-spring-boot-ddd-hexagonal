@@ -4,6 +4,8 @@ import com.groupal.king.store.catalog.adapter.database.model.CategoryModel;
 import com.groupal.king.store.catalog.adapter.database.repository.CategoryDataRepository;
 import com.groupal.king.store.catalog.application.port.out.CategoryRepository;
 import com.groupal.king.store.catalog.domain.Category;
+import com.groupal.king.store.common.exception.NotFoundException;
+import com.groupal.king.store.config.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -20,7 +22,7 @@ public class CategoryDbAdapter implements CategoryRepository {
 
     @Override
     public List<Category> findAll() {
-        log.info(">> Get all products from DB");
+        log.info(">> Get all categories from DB");
 
         var results = repository.findAll()
                 .stream()
@@ -32,6 +34,18 @@ public class CategoryDbAdapter implements CategoryRepository {
     }
 
     @Override
+    public Category findById(Long id) {
+        log.info(">> find category by id = {}", id);
+
+        var result = this.repository.findById(id)
+                .map(CategoryModel::toDomain)
+                .orElseThrow( () -> new NotFoundException(ErrorCode.NOT_FOUND_EXCEPTION));
+
+        log.info("<< Find category with response: {}", result);
+        return result;
+    }
+
+    @Override
     public Category createCategory(Category category) {
         log.info(">> Create category with: {}", category);
 
@@ -40,6 +54,17 @@ public class CategoryDbAdapter implements CategoryRepository {
 
         log.info("Saving in db a category with response {}", response);
         return category;
+    }
+
+    @Override
+    public Category updateCategory(Category category) {
+        log.info(">> Update category with: {}", category);
+
+        CategoryModel productModel = CategoryModel.fromDomain(category);
+        var response = repository.save(productModel);
+
+        log.info("Update in db a category with response {}", response);
+        return response.toDomain();
     }
 
     /*

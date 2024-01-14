@@ -7,7 +7,6 @@ import lombok.Value;
 @Value
 public class Category {
     Long id;
-    String code;
     String name;
     Boolean active;
 }

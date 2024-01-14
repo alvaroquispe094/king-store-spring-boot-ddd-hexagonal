@@ -8,6 +8,8 @@ public interface CategoryRepository {
 
     List<Category> findAll();
 
+    Category findById(Long id);
     Category createCategory(Category category);
 
+    Category updateCategory(Category category);
 }

@@ -5,21 +5,25 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Value;
 
-public interface CategoryCommand {
+public interface UpdateCategoryCommand {
 
-    Category execute(Command command);
+    Category execute(Command command, Long id);
 
     @Value
     @Builder
     class Command {
-        Long id;
         @NotBlank(message = "Name mustn't be blank")
         String name;
-        @NotBlank(message = "Active mustn't be blank")
         Boolean active;
 
-
         public Category toDomain() {
+            return Category.builder()
+                    .name(name)
+                    .active(active)
+                    .build();
+        }
+
+        public Category toDomain(Long id) {
             return Category.builder()
                     .id(id)
                     .name(name)
