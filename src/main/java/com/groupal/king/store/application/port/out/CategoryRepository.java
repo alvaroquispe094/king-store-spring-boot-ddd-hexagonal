@@ -1,6 +1,8 @@
 package com.groupal.king.store.application.port.out;
 
-import com.groupal.king.store.catalog.domain.Category;
+
+
+import com.groupal.king.store.domain.Category;
 
 import java.util.List;
 

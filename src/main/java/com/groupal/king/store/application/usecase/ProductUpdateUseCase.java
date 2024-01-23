@@ -2,7 +2,7 @@ package com.groupal.king.store.application.usecase;
 
 import com.groupal.king.store.application.port.in.UpdateProductCommand;
 import com.groupal.king.store.application.port.out.ProductRepository;
-import com.groupal.king.store.catalog.domain.Product;
+import com.groupal.king.store.domain.Product;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

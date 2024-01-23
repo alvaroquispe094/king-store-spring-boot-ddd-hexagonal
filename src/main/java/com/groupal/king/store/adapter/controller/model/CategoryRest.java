@@ -1,6 +1,7 @@
 package com.groupal.king.store.adapter.controller.model;
 
-import com.groupal.king.store.catalog.domain.Category;
+
+import com.groupal.king.store.domain.Category;
 import lombok.Builder;
 import lombok.Value;
 

@@ -1,7 +1,7 @@
 package com.groupal.king.store.adapter.database.model;
 
-import com.groupal.king.store.catalog.domain.Category;
-import com.groupal.king.store.catalog.domain.Product;
+import com.groupal.king.store.domain.Category;
+import com.groupal.king.store.domain.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
