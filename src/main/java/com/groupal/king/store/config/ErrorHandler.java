@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.groupal.king.store.common.exception.NotFoundException;
+import com.groupal.king.store.application.exception.NotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
