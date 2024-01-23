@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.groupal.king.store.application.exception.NotFoundException;
+import com.groupal.king.store.adapter.security.exception.TokenRefreshException;
+import com.groupal.king.store.domain.ErrorMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +15,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.request.WebRequest;
+
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Slf4j
 @ControllerAdvice
@@ -23,6 +29,16 @@ public class ErrorHandler {
 
     public ErrorHandler(final HttpServletRequest httpServletRequest) {
         this.httpServletRequest = httpServletRequest;
+    }
+
+    @ExceptionHandler(value = TokenRefreshException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorMessage handleTokenRefreshException(TokenRefreshException ex, WebRequest request) {
+        return new ErrorMessage(
+                HttpStatus.FORBIDDEN.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
     }
 
     @ExceptionHandler(Throwable.class)
