@@ -2,9 +2,9 @@ package com.groupal.king.store.adapter.controller;
 
 import com.groupal.king.store.adapter.security.exception.TokenRefreshException;
 import com.groupal.king.store.domain.enums.ERole;
-import com.groupal.king.store.adapter.database.model.RefreshToken;
-import com.groupal.king.store.adapter.database.model.Role;
-import com.groupal.king.store.adapter.database.model.User;
+import com.groupal.king.store.adapter.database.model.RefreshTokenModel;
+import com.groupal.king.store.adapter.database.model.RoleModel;
+import com.groupal.king.store.adapter.database.model.UserModel;
 import com.groupal.king.store.domain.LoginRequest;
 import com.groupal.king.store.domain.SignupRequest;
 import com.groupal.king.store.domain.TokenRefreshRequest;
@@ -69,7 +69,7 @@ public class AuthController {
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
             .collect(Collectors.toList());
 
-        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
+        RefreshTokenModel refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
 
         return ResponseEntity.ok(new JwtResponse(jwt, refreshToken.getToken(), userDetails.getId(),
             userDetails.getUsername(), userDetails.getEmail(), roles));
@@ -81,10 +81,10 @@ public class AuthController {
 
         return refreshTokenService.findByToken(requestRefreshToken)
                 .map(refreshTokenService::verifyExpiration)
-                .map(RefreshToken::getUser)
+                .map(RefreshTokenModel::getUser)
                 .map(user -> {
                   String token = jwtUtils.generateTokenFromUsername(user.getUsername());
-                  RefreshToken newRefreshToken = refreshTokenService.createRefreshToken(user.getId());
+                  RefreshTokenModel newRefreshToken = refreshTokenService.createRefreshToken(user.getId());
                   return ResponseEntity.ok(new TokenRefreshResponse(token, newRefreshToken.getToken()));
                 })
                 .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
@@ -102,31 +102,31 @@ public class AuthController {
         }
 
         // Create new user's account
-        User user = new User(signUpRequest.getFirstname(), signUpRequest.getLastname(), signUpRequest.getEmail(), signUpRequest.getEmail(),
+        UserModel user = new UserModel(signUpRequest.getFirstname(), signUpRequest.getLastname(), signUpRequest.getEmail(), signUpRequest.getEmail(),
             encoder.encode(signUpRequest.getPassword()), signUpRequest.getGender(), signUpRequest.getBirthDate(), signUpRequest.getPhone());
 
         Set<String> strRoles = signUpRequest.getRole();
-        Set<Role> roles = new HashSet<>();
+        Set<RoleModel> roles = new HashSet<>();
 
         if (strRoles == null) {
-          Role userRole = roleRepository.findByName(ERole.ROLE_CUSTOMER)
+          RoleModel userRole = roleRepository.findByName(ERole.ROLE_CUSTOMER)
               .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
           roles.add(userRole);
         } else {
           strRoles.forEach(role -> {
               switch (role) {
                   case "admin" -> {
-                      Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                      RoleModel adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                               .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                       roles.add(adminRole);
                   }
                   case "mod" -> {
-                      Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+                      RoleModel modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
                               .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                       roles.add(modRole);
                   }
                   default -> {
-                      Role userRole = roleRepository.findByName(ERole.ROLE_CUSTOMER)
+                      RoleModel userRole = roleRepository.findByName(ERole.ROLE_CUSTOMER)
                               .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                       roles.add(userRole);
                   }

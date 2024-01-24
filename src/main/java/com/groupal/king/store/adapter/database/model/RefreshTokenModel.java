@@ -6,14 +6,14 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "refreshtoken", schema = "users")
-public class RefreshToken {
+public class RefreshTokenModel {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
 
   @OneToOne
   @JoinColumn(name = "user_id", referencedColumnName = "id")
-  private User user;
+  private UserModel user;
 
   @Column(nullable = false, unique = true)
   private String token;
@@ -21,7 +21,7 @@ public class RefreshToken {
   @Column(nullable = false)
   private Instant expiryDate;
 
-  public RefreshToken() {
+  public RefreshTokenModel() {
   }
 
   public long getId() {
@@ -32,11 +32,11 @@ public class RefreshToken {
     this.id = id;
   }
 
-  public User getUser() {
+  public UserModel getUser() {
     return user;
   }
 
-  public void setUser(User user) {
+  public void setUser(UserModel user) {
     this.user = user;
   }
 

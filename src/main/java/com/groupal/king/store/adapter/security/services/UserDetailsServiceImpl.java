@@ -1,6 +1,6 @@
 package com.groupal.king.store.adapter.security.services;
 
-import com.groupal.king.store.adapter.database.model.User;
+import com.groupal.king.store.adapter.database.model.UserModel;
 import com.groupal.king.store.adapter.database.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +17,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   @Override
   @Transactional
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    User user = userRepository.findByUsername(username)
+    UserModel user = userRepository.findByUsername(username)
         .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
 
     return UserDetailsImpl.build(user);

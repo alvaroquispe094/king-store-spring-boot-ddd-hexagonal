@@ -1,7 +1,7 @@
 package com.groupal.king.store.adapter.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.groupal.king.store.adapter.database.model.User;
+import com.groupal.king.store.adapter.database.model.UserModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,7 +34,7 @@ public class UserDetailsImpl implements UserDetails {
 		this.authorities = authorities;
 	}
 
-	public static UserDetailsImpl build(User user) {
+	public static UserDetailsImpl build(UserModel user) {
 		List<GrantedAuthority> authorities = user.getRoles().stream()
 				.map(role -> new SimpleGrantedAuthority(role.getName().name()))
 				.collect(Collectors.toList());

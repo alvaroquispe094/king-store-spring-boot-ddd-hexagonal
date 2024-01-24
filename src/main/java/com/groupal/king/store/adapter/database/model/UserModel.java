@@ -14,7 +14,7 @@ import java.util.Set;
 			@UniqueConstraint(columnNames = "user_name"),
 			@UniqueConstraint(columnNames = "email") 
 		})
-public class User {
+public class UserModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -62,12 +62,12 @@ public class User {
 	@JoinTable(	name = "user_roles", schema = "users",
 				joinColumns = @JoinColumn(name = "user_id"), 
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles = new HashSet<>();
+	private Set<RoleModel> roles = new HashSet<>();
 
-	public User() {
+	public UserModel() {
 	}
 
-	public User(String firstname, String lastname, String username, String email, String password, String gender, String birthDate, String phone) {
+	public UserModel(String firstname, String lastname, String username, String email, String password, String gender, String birthDate, String phone) {
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.username = username;
@@ -110,11 +110,11 @@ public class User {
 		this.password = password;
 	}
 
-	public Set<Role> getRoles() {
+	public Set<RoleModel> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(Set<RoleModel> roles) {
 		this.roles = roles;
 	}
 }
