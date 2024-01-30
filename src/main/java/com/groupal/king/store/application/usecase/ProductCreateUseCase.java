@@ -1,6 +1,6 @@
 package com.groupal.king.store.application.usecase;
 
-import com.groupal.king.store.application.port.in.ProductCommand;
+import com.groupal.king.store.application.port.in.CreateProductCommand;
 import com.groupal.king.store.application.port.out.ProductRepository;
 import com.groupal.king.store.domain.Product;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ProductCreateUseCase implements ProductCommand {
+public class ProductCreateUseCase implements CreateProductCommand {
 
     private final ProductRepository productRepository;
 

@@ -3,7 +3,7 @@ package com.groupal.king.store.adapter.controller;
 import com.groupal.king.store.adapter.controller.model.ProductRest;
 import com.groupal.king.store.application.port.in.GetProductByIdQuery;
 import com.groupal.king.store.application.port.in.GetProductsQuery;
-import com.groupal.king.store.application.port.in.ProductCommand;
+import com.groupal.king.store.application.port.in.CreateProductCommand;
 import com.groupal.king.store.application.port.in.UpdateProductCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/api/v1/catalog/products")
 public class ProductController {
 
-    private final ProductCommand productCommand;
+    private final CreateProductCommand productCommand;
     private final UpdateProductCommand updateProductCommand;
     private final GetProductsQuery getProductsQuery;
     private final GetProductByIdQuery getProductByIdQuery;
@@ -44,7 +44,7 @@ public class ProductController {
     }
 
     @PostMapping("")
-    public ProductRest createProduct(@RequestBody ProductCommand.Command command) {
+    public ProductRest createProduct(@RequestBody CreateProductCommand.Command command) {
         log.info(">> Execute controller with body: {}", command);
 
         var product = productCommand.execute(command);

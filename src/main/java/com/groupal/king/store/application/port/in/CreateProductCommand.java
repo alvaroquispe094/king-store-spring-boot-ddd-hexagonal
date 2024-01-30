@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Value;
 
-public interface ProductCommand {
+public interface CreateProductCommand {
 
     Product execute(Command command);
 

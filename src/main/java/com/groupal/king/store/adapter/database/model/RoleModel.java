@@ -3,7 +3,15 @@ package com.groupal.king.store.adapter.database.model;
 
 import com.groupal.king.store.domain.enums.ERole;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "roles", schema = "users")
 public class RoleModel {
@@ -15,27 +23,4 @@ public class RoleModel {
 	@Column(length = 40)
 	private ERole name;
 
-	public RoleModel() {
-
-	}
-
-	public RoleModel(ERole name) {
-		this.name = name;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public ERole getName() {
-		return name;
-	}
-
-	public void setName(ERole name) {
-		this.name = name;
-	}
 }

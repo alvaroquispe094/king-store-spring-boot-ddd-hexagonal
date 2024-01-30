@@ -12,7 +12,7 @@ import com.groupal.king.store.adapter.security.model.JwtResponse;
 import com.groupal.king.store.adapter.security.model.MessageResponse;
 import com.groupal.king.store.adapter.security.model.TokenRefreshResponse;
 import com.groupal.king.store.adapter.database.repository.RoleRepository;
-import com.groupal.king.store.adapter.database.repository.UserRepository;
+import com.groupal.king.store.adapter.database.repository.UserDataRepository;
 import com.groupal.king.store.adapter.security.jwt.JwtUtils;
 import com.groupal.king.store.adapter.security.services.RefreshTokenService;
 import com.groupal.king.store.adapter.security.services.UserDetailsImpl;
@@ -40,7 +40,7 @@ public class AuthController {
   AuthenticationManager authenticationManager;
 
   @Autowired
-  UserRepository userRepository;
+  UserDataRepository userRepository;
 
   @Autowired
   RoleRepository roleRepository;
@@ -102,8 +102,16 @@ public class AuthController {
         }
 
         // Create new user's account
-        UserModel user = new UserModel(signUpRequest.getFirstname(), signUpRequest.getLastname(), signUpRequest.getEmail(), signUpRequest.getEmail(),
-            encoder.encode(signUpRequest.getPassword()), signUpRequest.getGender(), signUpRequest.getBirthDate(), signUpRequest.getPhone());
+        UserModel user = UserModel.builder()
+                .firstname(signUpRequest.getFirstname())
+                .lastname(signUpRequest.getLastname())
+                .username(signUpRequest.getEmail())
+                .email(signUpRequest.getEmail())
+                .password(encoder.encode(signUpRequest.getPassword()))
+                .gender(signUpRequest.getGender())
+                .birthDate(signUpRequest.getBirthDate())
+                .phone(signUpRequest.getPhone())
+                .build();
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<RoleModel> roles = new HashSet<>();

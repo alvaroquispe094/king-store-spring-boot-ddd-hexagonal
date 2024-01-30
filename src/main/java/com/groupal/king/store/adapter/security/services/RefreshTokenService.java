@@ -3,7 +3,7 @@ package com.groupal.king.store.adapter.security.services;
 import com.groupal.king.store.adapter.security.exception.TokenRefreshException;
 import com.groupal.king.store.adapter.database.model.RefreshTokenModel;
 import com.groupal.king.store.adapter.database.repository.RefreshTokenRepository;
-import com.groupal.king.store.adapter.database.repository.UserRepository;
+import com.groupal.king.store.adapter.database.repository.UserDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class RefreshTokenService {
   private RefreshTokenRepository refreshTokenRepository;
 
   @Autowired
-  private UserRepository userRepository;
+  private UserDataRepository userRepository;
 
   public Optional<RefreshTokenModel> findByToken(String token) {
     return refreshTokenRepository.findByToken(token);

@@ -1,7 +1,7 @@
 package com.groupal.king.store.adapter.security.services;
 
 import com.groupal.king.store.adapter.database.model.UserModel;
-import com.groupal.king.store.adapter.database.repository.UserRepository;
+import com.groupal.king.store.adapter.database.repository.UserDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
   @Autowired
-  UserRepository userRepository;
+  UserDataRepository userRepository;
 
   @Override
   @Transactional
