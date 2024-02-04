@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Value;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Value
@@ -19,7 +20,7 @@ public class UserRest {
     String gender;
     String birthDate;
     String phone;
-    String role;
+    Set<String> roles;
 
     public static UserRest fromDomain(User user){
         return UserRest.builder()
@@ -32,7 +33,7 @@ public class UserRest {
                 .gender(user.getGender())
                 .birthDate(user.getBirthDate())
                 .phone(user.getPhone())
-                .role(user.getRole())
+                .roles(user.getRoles())
                 .build();
     }
 

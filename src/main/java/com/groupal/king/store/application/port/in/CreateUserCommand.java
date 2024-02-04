@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Value;
 
+import java.util.Set;
+
 public interface CreateUserCommand {
 
     User execute(Command command);
@@ -30,8 +32,8 @@ public interface CreateUserCommand {
         String birthDate;
         @NotBlank(message = "Phone mustn't be blank")
         String phone;
-        @NotBlank(message = "Role mustn't be blank")
-        String role;
+        @NotBlank(message = "Roles mustn't be blank")
+        Set<String> roles;
 
         public User toDomain() {
             return User.builder()
@@ -44,7 +46,7 @@ public interface CreateUserCommand {
                     .gender(gender)
                     .birthDate(birthDate)
                     .phone(phone)
-                    .role(role)
+                    .roles(roles)
                     .build();
         }
     }

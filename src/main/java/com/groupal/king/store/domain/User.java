@@ -3,6 +3,8 @@ package com.groupal.king.store.domain;
 import lombok.Builder;
 import lombok.Value;
 
+import java.util.Set;
+
 @Builder
 @Value
 public class User {
@@ -15,6 +17,6 @@ public class User {
     String gender;
     String birthDate;
     String phone;
-    String role;
+    Set<String> roles;
 
 }
