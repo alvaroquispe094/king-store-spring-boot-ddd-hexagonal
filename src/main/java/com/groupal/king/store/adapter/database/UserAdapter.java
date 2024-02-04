@@ -22,14 +22,14 @@ public class UserAdapter implements UserRepository {
 
     @Override
     public List<User> findAll() {
-        log.info(">> Get all products from DB");
+        log.info(">> Get all users from DB");
 
         var results = repository.findAll()
                 .stream()
                 .map(UserModel::toDomain)
                 .collect(Collectors.toList());
 
-        log.info("<< Get all products with response: {}", results);
+        log.info("<< Get all users with response: {}", results);
         return results;
     }
 

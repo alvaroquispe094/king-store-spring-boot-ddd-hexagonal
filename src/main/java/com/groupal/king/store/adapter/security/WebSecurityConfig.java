@@ -104,9 +104,15 @@ public class WebSecurityConfig {
                     .permitAll()
 
                     //PRIVATE
-                    .requestMatchers("/api/v1/user/**").hasAnyAuthority("ROLE_CUSTOMER","ROLE_MODERATOR", "ROLE_ADMIN")
-                    .requestMatchers("/api/v1/mod/**").hasAnyAuthority("ROLE_MODERATOR", "ROLE_ADMIN")
-                    .requestMatchers("/api/v1/catalog/**").hasAuthority("ROLE_ADMIN")
+                    .requestMatchers("/api/v1/users/**")
+                    .hasAnyAuthority("ROLE_MODERATOR", "ROLE_ADMIN")
+
+                    .requestMatchers("/api/v1/mod/**")
+                    .hasAnyAuthority("ROLE_MODERATOR", "ROLE_ADMIN")
+
+                    .requestMatchers("/api/v1/catalog/**")
+                    .hasAuthority("ROLE_ADMIN")
+
                     .anyRequest()
                     .authenticated()
 

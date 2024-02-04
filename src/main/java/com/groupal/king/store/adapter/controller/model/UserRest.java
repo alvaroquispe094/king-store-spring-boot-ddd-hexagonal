@@ -32,6 +32,7 @@ public class UserRest {
                 .gender(user.getGender())
                 .birthDate(user.getBirthDate())
                 .phone(user.getPhone())
+                .role(user.getRole())
                 .build();
     }
 
