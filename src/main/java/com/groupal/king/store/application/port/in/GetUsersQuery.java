@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface GetUsersQuery {
 
-    List<User> execute();
+    List<User> execute(String role);
 
 }

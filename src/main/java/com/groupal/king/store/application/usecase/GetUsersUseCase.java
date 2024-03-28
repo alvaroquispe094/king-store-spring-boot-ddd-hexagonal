@@ -17,10 +17,12 @@ public class GetUsersUseCase implements GetUsersQuery {
     private final UserRepository userRepository;
 
     @Override
-    public List<User> execute() {
+    public List<User> execute(String role) {
         log.info(">> Execute get users use case");
+        List<User> results;
 
-        List<User> results = userRepository.findAll();
+        if (role.isEmpty()) results = userRepository.findAll();
+        else results = userRepository.findAllByRole(role);
 
         log.info("<< Get users data successfully processed with response {}", results);
         return results;

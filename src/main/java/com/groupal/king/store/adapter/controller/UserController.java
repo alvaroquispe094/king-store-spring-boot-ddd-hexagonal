@@ -23,10 +23,12 @@ public class UserController {
     private final GetUserByIdQuery getUserByIdQuery;
 
     @GetMapping
-    public List<UserRest> getAllUserss() {
+    public List<UserRest> getAllUserss(
+            @RequestParam(required = false, defaultValue = "") String role
+    ) {
         log.info(">>Execute controller");
 
-        var response = UserRest.listFromDomain(getUsersQuery.execute());
+        var response = UserRest.listFromDomain(getUsersQuery.execute(role));
 
         log.info("<< Request successfully executed");
         return response;

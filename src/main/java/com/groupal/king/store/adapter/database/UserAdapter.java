@@ -43,6 +43,20 @@ public class UserAdapter implements UserRepository {
     }
 
     @Override
+    public List<User> findAllByRole(String role) {
+        log.info(">> Get all users from DB by Role");
+
+        var results = repository.findAll()
+                .stream()
+                .map(UserModel::toDomain)
+                .filter(item -> item.getRoles().contains(role))
+                .collect(Collectors.toList());
+
+        log.info("<< Get all users with response: {}", results);
+        return results;
+    }
+
+    @Override
     public User findById(Long id) {
         log.info(">> find user by id = {}", id);
 

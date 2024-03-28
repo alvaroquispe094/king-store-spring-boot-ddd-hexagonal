@@ -8,6 +8,8 @@ public interface UserRepository {
 
     List<User> findAll();
 
+    List<User> findAllByRole(String role);
+
     User createUser(User user);
 
     User findById(Long id);
