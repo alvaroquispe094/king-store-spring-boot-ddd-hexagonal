@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.groupal.king.store.application.exception.NotFoundException;
 import com.groupal.king.store.adapter.security.exception.TokenRefreshException;
+import com.groupal.king.store.application.exception.*;
 import com.groupal.king.store.domain.ErrorMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Builder;
@@ -59,6 +59,30 @@ public class ErrorHandler {
         return buildResponseError(HttpStatus.BAD_REQUEST, ex, ErrorCode.NOT_FOUND_EXCEPTION);
     }
 
+    @ExceptionHandler(GenerateTokenException.class)
+    public ResponseEntity<ErrorResponse> handle(GenerateTokenException ex) {
+        log.error(ErrorCode.GENERATE_TOKEN_ERROR.getCode(), ex);
+        return buildResponseError(HttpStatus.BAD_REQUEST, ex, ErrorCode.GENERATE_TOKEN_ERROR);
+    }
+
+    @ExceptionHandler(UsernameTakenException.class)
+    public ResponseEntity<ErrorResponse> handle(UsernameTakenException ex) {
+        log.error(ErrorCode.INVALID_USERNAME_TAKEN.getCode(), ex);
+        return buildResponseError(HttpStatus.BAD_REQUEST, ex, ErrorCode.INVALID_USERNAME_TAKEN);
+    }
+
+    @ExceptionHandler(EmailTakenException.class)
+    public ResponseEntity<ErrorResponse> handle(EmailTakenException ex) {
+        log.error(ErrorCode.INVALID_EMAIL_TAKEN.getCode(), ex);
+        return buildResponseError(HttpStatus.BAD_REQUEST, ex, ErrorCode.INVALID_EMAIL_TAKEN);
+    }
+
+    @ExceptionHandler(RoleNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handle(RoleNotFoundException ex) {
+        log.error(ErrorCode.USER_ROLE_NOT_FOUND.getCode(), ex);
+        return buildResponseError(HttpStatus.BAD_REQUEST, ex, ErrorCode.USER_ROLE_NOT_FOUND);
+    }
+
 
     @Builder
     @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -75,20 +99,28 @@ public class ErrorHandler {
         private Integer code;
 
         @JsonProperty
-        int errorInternalCode;
+        String errorCode;
+
         @JsonProperty
         String errorDescription;
-        @JsonProperty
-        String errorCode;
+
+
+
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATETIME_FORMAT)
         private LocalDateTime timestamp;
+
         @JsonProperty
         private String resource;
+
         @JsonProperty
         private String detail;
     }
 
-    private ResponseEntity<ErrorResponse> buildResponseError(HttpStatus httpStatus, Throwable ex, ErrorCode errorCode) {
+    private ResponseEntity<ErrorResponse> buildResponseError(
+            HttpStatus httpStatus,
+            Throwable ex,
+            ErrorCode errorCode
+    ) {
 
         final ErrorResponse apiErrorResponse = ErrorResponse
                 .builder()
@@ -97,9 +129,8 @@ public class ErrorHandler {
                 .detail(String.format("%s: %s", ex.getClass().getCanonicalName(), ex.getMessage()))
                 .status(httpStatus.value())
                 .code(errorCode.value())
-                .errorInternalCode(errorCode.value())
+                //.errorInternalCode(errorCode.value())
                 .resource(httpServletRequest.getRequestURI())
-                .errorInternalCode(errorCode.value())
                 .errorDescription(errorCode.getDetail())
                 .errorCode(errorCode.getCode())
                 .build();

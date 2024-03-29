@@ -2,9 +2,10 @@ package com.groupal.king.store.adapter.database;
 
 import com.groupal.king.store.adapter.database.model.RoleModel;
 import com.groupal.king.store.adapter.database.model.UserModel;
-import com.groupal.king.store.adapter.database.repository.RoleRepository;
+import com.groupal.king.store.adapter.database.repository.RoleDataRepository;
 import com.groupal.king.store.adapter.database.repository.UserDataRepository;
 import com.groupal.king.store.application.exception.NotFoundException;
+import com.groupal.king.store.application.exception.RoleNotFoundException;
 import com.groupal.king.store.application.port.out.UserRepository;
 import com.groupal.king.store.config.ErrorCode;
 import com.groupal.king.store.domain.User;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,7 +27,7 @@ import java.util.stream.Collectors;
 public class UserAdapter implements UserRepository {
 
     private final UserDataRepository repository;
-    private final RoleRepository roleRepository;
+    private final RoleDataRepository roleRepository;
 
     private final PasswordEncoder encoder;
 
@@ -118,29 +120,44 @@ public class UserAdapter implements UserRepository {
         return response.toDomain();
     }
 
+    @Override
+    public Optional<UserModel> findByUsername(String username) {
+        return repository.findByUsername(username);
+    }
+
+    @Override
+    public Boolean existsByUsername(String username) {
+        return repository.existsByUsername(username);
+    }
+
+    @Override
+    public Boolean existsByEmail(String email) {
+        return repository.existsByEmail(email);
+    }
+
     private Set<RoleModel> mapRoles(Set<String> roles){
         Set<RoleModel> roleList = new HashSet<>();
 
         if (roles == null) {
             RoleModel userRole = roleRepository.findByName(ERole.ROLE_CUSTOMER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    .orElseThrow(() -> new RoleNotFoundException(ErrorCode.USER_ROLE_NOT_FOUND, "Error: Role is not found."));
             roleList.add(userRole);
         } else {
             roles.forEach(role -> {
                 switch (role) {
                     case "admin" -> {
                         RoleModel adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                                .orElseThrow(() -> new RoleNotFoundException(ErrorCode.USER_ROLE_NOT_FOUND, "Error: Role is not found."));
                         roleList.add(adminRole);
                     }
                     case "mod" -> {
                         RoleModel modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                                .orElseThrow(() -> new RoleNotFoundException(ErrorCode.USER_ROLE_NOT_FOUND, "Error: Role is not found."));
                         roleList.add(modRole);
                     }
                     default -> {
                         RoleModel userRole = roleRepository.findByName(ERole.ROLE_CUSTOMER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                                .orElseThrow(() -> new RoleNotFoundException(ErrorCode.USER_ROLE_NOT_FOUND, "Error: Role is not found."));
                         roleList.add(userRole);
                     }
                 }

@@ -1,8 +1,6 @@
 package com.groupal.king.store.adapter.security.jwt;
 
-
-import com.groupal.king.store.adapter.security.services.UserDetailsServiceImpl;
-
+import com.groupal.king.store.adapter.security.AuthenticationAdapter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +22,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
   private JwtUtils jwtUtils;
 
   @Autowired
-  private UserDetailsServiceImpl userDetailsService;
+  private AuthenticationAdapter userDetailsService;
 
   private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 

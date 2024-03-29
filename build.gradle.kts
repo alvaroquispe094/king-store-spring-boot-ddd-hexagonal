@@ -54,8 +54,8 @@ dependencies {
 	implementation ("net.logstash.logback:logstash-logback-encoder:6.4")
 
 	// ArchUnit
-	testImplementation("com.tngtech.archunit:archunit:1.0.0")
-	testImplementation("com.tngtech.archunit:archunit-junit5:1.0.0")
+	testImplementation("com.tngtech.archunit:archunit:0.23.1")
+	testImplementation("com.tngtech.archunit:archunit-junit5:0.23.1")
 
 	// Test
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

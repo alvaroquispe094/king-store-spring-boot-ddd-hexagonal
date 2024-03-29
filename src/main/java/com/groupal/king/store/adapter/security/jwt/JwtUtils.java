@@ -1,6 +1,6 @@
 package com.groupal.king.store.adapter.security.jwt;
 
-import com.groupal.king.store.adapter.security.services.UserDetailsImpl;
+import com.groupal.king.store.adapter.security.services.UserDetail;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -23,7 +23,7 @@ public class JwtUtils {
     @Value("${jwt.expiration}")
     private int jwtExpirationMs;
 
-    public String generateJwtToken(UserDetailsImpl userPrincipal) {
+    public String generateJwtToken(UserDetail userPrincipal) {
       return generateTokenFromUsername(userPrincipal.getUsername());
     }
 

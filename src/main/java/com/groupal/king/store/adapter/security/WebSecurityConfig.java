@@ -1,11 +1,9 @@
 package com.groupal.king.store.adapter.security;
 
 import com.groupal.king.store.adapter.security.jwt.AuthEntryPointJwt;
-import com.groupal.king.store.adapter.security.services.UserDetailsServiceImpl;
 import com.groupal.king.store.adapter.security.jwt.AuthTokenFilter;
 import com.groupal.king.store.adapter.security.jwt.DeniedEntryPointJwt;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -26,7 +24,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
+import java.util.List;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -36,19 +34,17 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableMethodSecurity
 public class WebSecurityConfig {
 
-    @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    private final AuthenticationAdapter userDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Autowired
-    private AuthEntryPointJwt unauthorizedHandler;
+    private final AuthEntryPointJwt unauthorizedHandler;
 
-    @Autowired
-    private DeniedEntryPointJwt forbiddenHandler;
+
+    private final DeniedEntryPointJwt forbiddenHandler;
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -123,19 +119,14 @@ public class WebSecurityConfig {
     }
 
     private Customizer<CorsConfigurer<HttpSecurity>> corsCustomiser() {
-        return new Customizer<CorsConfigurer<HttpSecurity>>() {
-            @Override
-            public void customize(CorsConfigurer<HttpSecurity> t) {
-                t.configurationSource(getCorsConfiguration());
-            }
-        };
+        return t -> t.configurationSource(getCorsConfiguration());
     }
 
     private CorsConfigurationSource getCorsConfiguration() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedOriginPatterns(Arrays.asList("http://localhost:4200"));
+        config.setAllowedOriginPatterns(List.of("http://localhost:4200"));
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
