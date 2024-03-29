@@ -36,19 +36,15 @@ public class WebSecurityConfig {
 
     private final AuthenticationAdapter userDetailsService;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     private final AuthEntryPointJwt unauthorizedHandler;
-
 
     private final DeniedEntryPointJwt forbiddenHandler;
 
+    private final AuthTokenFilter authTokenFilter;
+
     @Bean
-    public AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -86,7 +82,7 @@ public class WebSecurityConfig {
             .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
             .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
             .authenticationProvider(authenticationProvider())
-            .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
             .authorizeHttpRequests(req -> req
                     .requestMatchers(WHITE_LIST_URL)
                     .permitAll()
