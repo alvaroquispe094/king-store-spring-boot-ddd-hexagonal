@@ -1,11 +1,11 @@
 package com.groupal.king.store.application.usecase;
 
-import com.groupal.king.store.adapter.database.model.RefreshTokenModel;
-import com.groupal.king.store.adapter.security.jwt.JwtUtils;
-import com.groupal.king.store.adapter.security.model.JwtResponse;
-import com.groupal.king.store.adapter.security.services.UserDetail;
+import com.groupal.king.store.domain.JwtResponse;
+import com.groupal.king.store.domain.UserDetail;
 import com.groupal.king.store.application.port.in.SignInCommand;
+import com.groupal.king.store.application.port.out.JwtUtilsRepository;
 import com.groupal.king.store.application.port.out.RefreshTokenRepository;
+import com.groupal.king.store.domain.RefreshToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,7 +25,7 @@ public class SignInUseCase implements SignInCommand {
 
     private final AuthenticationManager authenticationManager;
 
-    private final JwtUtils jwtUtils;
+    private final JwtUtilsRepository jwtUtils;
 
     private final RefreshTokenRepository refreshTokenRepository;
 
@@ -43,7 +43,7 @@ public class SignInUseCase implements SignInCommand {
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        RefreshTokenModel refreshToken = refreshTokenRepository.createRefreshToken(userDetails.getId());
+        RefreshToken refreshToken = refreshTokenRepository.createRefreshToken(userDetails.getId());
 
         return new JwtResponse(jwt, refreshToken.getToken(), userDetails.getId(),
                 userDetails.getUsername(), userDetails.getEmail(), roles);

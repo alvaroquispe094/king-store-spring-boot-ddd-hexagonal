@@ -1,7 +1,7 @@
 package com.groupal.king.store.application.port.in;
 
 
-import com.groupal.king.store.adapter.security.model.TokenRefreshResponse;
+import com.groupal.king.store.domain.TokenRefreshResponse;
 
 public interface RefreshTokenQuery {
 

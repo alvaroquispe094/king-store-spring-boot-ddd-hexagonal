@@ -1,7 +1,8 @@
-package com.groupal.king.store.adapter.security.model;
+package com.groupal.king.store.domain;
 
 import java.util.List;
 
+//ToDo: Mejorar clase con @Builder y @Value
 public class JwtResponse {
 	private String token;
 	private String type = "Bearer";

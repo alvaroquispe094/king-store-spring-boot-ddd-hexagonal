@@ -1,6 +1,7 @@
 package com.groupal.king.store.adapter.database.model;
 
 import com.groupal.king.store.domain.User;
+import com.groupal.king.store.domain.enums.ERole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -67,9 +68,32 @@ public class UserModel {
 				.build();
 	}
 
+	public static UserModel fromDomain(User user){
+		return UserModel.builder()
+				.id(user.getId())
+				.firstname(user.getFirstname())
+				.lastname(user.getLastname())
+				.username(user.getUsername())
+				.email(user.getEmail())
+				.password(user.getPassword())
+				.gender(user.getGender())
+				.birthDate(user.getBirthDate())
+				.phone(user.getPhone())
+				.roles(toRoleModel(user.getRoles()))
+				.build();
+	}
+
 	public Set<String> toRoles(Set<RoleModel> roles) {
 		Set<String> list = new HashSet<>();
 		roles.forEach(role ->  list.add(role.getName().toString()) );
+		return list;
+	}
+
+	public static Set<RoleModel> toRoleModel(Set<String> roles) {
+		Set<RoleModel> list = new HashSet<>();
+		roles.forEach(role ->  list.add(RoleModel.builder()
+						.name(ERole.ROLE_ADMIN)
+				.build()) );
 		return list;
 	}
 

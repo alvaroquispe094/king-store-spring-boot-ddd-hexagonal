@@ -1,6 +1,7 @@
-package com.groupal.king.store.adapter.security.jwt;
+package com.groupal.king.store.adapter.security;
 
-import com.groupal.king.store.adapter.security.services.UserDetail;
+import com.groupal.king.store.domain.UserDetail;
+import com.groupal.king.store.application.port.out.JwtUtilsRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -13,9 +14,9 @@ import java.security.Key;
 import java.util.Date;
 
 @Component
-public class JwtUtils {
+public class JwtUtilsAdapter implements JwtUtilsRepository {
 
-    private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(JwtUtilsAdapter.class);
 
     @Value("${jwt.secret}")
     private String jwtSecret;
@@ -23,10 +24,12 @@ public class JwtUtils {
     @Value("${jwt.expiration}")
     private int jwtExpirationMs;
 
+    @Override
     public String generateJwtToken(UserDetail userPrincipal) {
       return generateTokenFromUsername(userPrincipal.getUsername());
     }
 
+    @Override
     public String generateTokenFromUsername(String username) {
       return Jwts
                 .builder()
@@ -39,6 +42,7 @@ public class JwtUtils {
 
     }
 
+    @Override
     public String getUserNameFromJwtToken(String token) {
       return Jwts.parserBuilder()
               .setSigningKey(getSignInKey())
@@ -50,6 +54,7 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
+    @Override
     public boolean validateJwtToken(String authToken) {
       try {
           Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parse(authToken);

@@ -1,9 +1,18 @@
 package com.groupal.king.store.adapter.database.model;
 
+import com.groupal.king.store.domain.RefreshToken;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
+@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "refreshtoken", schema = "users")
 public class RefreshTokenModel {
@@ -21,7 +30,7 @@ public class RefreshTokenModel {
   @Column(nullable = false)
   private Instant expiryDate;
 
-  public RefreshTokenModel() {
+  /*public RefreshTokenModel() {
   }
 
   public long getId() {
@@ -54,6 +63,24 @@ public class RefreshTokenModel {
 
   public void setExpiryDate(Instant expiryDate) {
     this.expiryDate = expiryDate;
+  }*/
+
+  public RefreshToken toDomain(){
+    return RefreshToken.builder()
+            .id(id)
+            .user(user.toDomain())
+            .token(token)
+            .expiryDate(expiryDate)
+            .build();
+  }
+
+  public static RefreshTokenModel fromDomain(RefreshToken refreshToken){
+    return RefreshTokenModel.builder()
+            .id(refreshToken.getId())
+            .user(UserModel.fromDomain(refreshToken.getUser()))
+            .token(refreshToken.getToken())
+            .expiryDate(refreshToken.getExpiryDate())
+            .build();
   }
 
 }

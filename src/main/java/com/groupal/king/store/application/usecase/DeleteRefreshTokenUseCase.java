@@ -1,6 +1,6 @@
 package com.groupal.king.store.application.usecase;
 
-import com.groupal.king.store.adapter.security.services.UserDetail;
+import com.groupal.king.store.domain.UserDetail;
 import com.groupal.king.store.application.port.in.DeleteRefreshTokenQuery;
 import com.groupal.king.store.application.port.out.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;

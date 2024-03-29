@@ -1,5 +1,6 @@
-package com.groupal.king.store.adapter.security.model;
+package com.groupal.king.store.domain;
 
+//ToDo: Mejorar con @Builder y @Value
 public class TokenRefreshResponse {
   private String accessToken;
   private String refreshToken;

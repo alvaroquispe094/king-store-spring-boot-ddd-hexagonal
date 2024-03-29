@@ -17,7 +17,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -121,16 +120,6 @@ public class UserAdapter implements UserRepository {
     }
 
     @Override
-    public Optional<UserModel> findByUsername(String username) {
-        return repository.findByUsername(username);
-    }
-
-    @Override
-    public Boolean existsByUsername(String username) {
-        return repository.existsByUsername(username);
-    }
-
-    @Override
     public Boolean existsByEmail(String email) {
         return repository.existsByEmail(email);
     }
@@ -145,8 +134,8 @@ public class UserAdapter implements UserRepository {
         } else {
             roles.forEach(role -> {
                 switch (role) {
-                    case "admin" -> {
-                        RoleModel adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                    case "customer" -> {
+                        RoleModel adminRole = roleRepository.findByName(ERole.ROLE_CUSTOMER)
                                 .orElseThrow(() -> new RoleNotFoundException(ErrorCode.USER_ROLE_NOT_FOUND, "Error: Role is not found."));
                         roleList.add(adminRole);
                     }
@@ -155,11 +144,12 @@ public class UserAdapter implements UserRepository {
                                 .orElseThrow(() -> new RoleNotFoundException(ErrorCode.USER_ROLE_NOT_FOUND, "Error: Role is not found."));
                         roleList.add(modRole);
                     }
-                    default -> {
-                        RoleModel userRole = roleRepository.findByName(ERole.ROLE_CUSTOMER)
+                    case "admin" -> {
+                        RoleModel adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                                 .orElseThrow(() -> new RoleNotFoundException(ErrorCode.USER_ROLE_NOT_FOUND, "Error: Role is not found."));
-                        roleList.add(userRole);
+                        roleList.add(adminRole);
                     }
+                    default -> throw new RoleNotFoundException(ErrorCode.USER_ROLE_NOT_FOUND, "Error: Role is not found.");
                 }
             });
         }

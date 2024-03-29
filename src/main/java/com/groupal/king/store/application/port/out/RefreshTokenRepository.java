@@ -1,17 +1,17 @@
 package com.groupal.king.store.application.port.out;
 
 
-import com.groupal.king.store.adapter.database.model.RefreshTokenModel;
+import com.groupal.king.store.domain.RefreshToken;
 
 import java.util.Optional;
 
 public interface RefreshTokenRepository {
 
-    Optional<RefreshTokenModel> findByToken(String token);
+    Optional<RefreshToken> findByToken(String token);
 
-    RefreshTokenModel createRefreshToken(Long userId);
+    RefreshToken createRefreshToken(Long userId);
 
-    RefreshTokenModel verifyExpiration(RefreshTokenModel token);
+    RefreshToken verifyExpiration(RefreshToken token);
 
     int deleteByUserId(Long userId);
 

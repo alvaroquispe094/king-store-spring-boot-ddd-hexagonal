@@ -1,7 +1,7 @@
-package com.groupal.king.store.adapter.security.services;
+package com.groupal.king.store.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.groupal.king.store.adapter.database.model.UserModel;
+import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Builder
+//@Value
 public class UserDetail implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
@@ -34,9 +36,9 @@ public class UserDetail implements UserDetails {
 		this.authorities = authorities;
 	}
 
-	public static UserDetail build(UserModel user) {
+	public static UserDetail build(User user) {
 		List<GrantedAuthority> authorities = user.getRoles().stream()
-				.map(role -> new SimpleGrantedAuthority(role.getName().name()))
+				.map(SimpleGrantedAuthority::new)
 				.collect(Collectors.toList());
 
 		return new UserDetail(

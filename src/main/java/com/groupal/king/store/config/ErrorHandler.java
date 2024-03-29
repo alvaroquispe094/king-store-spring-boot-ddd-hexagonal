@@ -43,43 +43,43 @@ public class ErrorHandler {
 
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<ErrorResponse> handle(Throwable ex) {
-        log.error(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), ex);
+        log.error("ErrorCode="+HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), ex);
         return buildResponseError(HttpStatus.INTERNAL_SERVER_ERROR,ex, ErrorCode.INTERNAL_ERROR);
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<ErrorResponse> handle(MissingServletRequestParameterException ex) {
-        log.error(ErrorCode.INVALID_PARAMETERS_ERROR.getCode(), ex);
+        log.error("ErrorCode="+ErrorCode.INVALID_PARAMETERS_ERROR.getCode(), ex);
         return buildResponseError(HttpStatus.BAD_REQUEST,ex, ErrorCode.INVALID_PARAMETERS_ERROR);
     }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handle(NotFoundException ex) {
-        log.error(ErrorCode.NOT_FOUND_EXCEPTION.getCode(), ex);
+        log.error("ErrorCode="+ErrorCode.NOT_FOUND_EXCEPTION.getCode(), ex);
         return buildResponseError(HttpStatus.BAD_REQUEST, ex, ErrorCode.NOT_FOUND_EXCEPTION);
     }
 
     @ExceptionHandler(GenerateTokenException.class)
     public ResponseEntity<ErrorResponse> handle(GenerateTokenException ex) {
-        log.error(ErrorCode.GENERATE_TOKEN_ERROR.getCode(), ex);
+        log.error("ErrorCode="+ErrorCode.GENERATE_TOKEN_ERROR.getCode(), ex);
         return buildResponseError(HttpStatus.BAD_REQUEST, ex, ErrorCode.GENERATE_TOKEN_ERROR);
     }
 
     @ExceptionHandler(UsernameTakenException.class)
     public ResponseEntity<ErrorResponse> handle(UsernameTakenException ex) {
-        log.error(ErrorCode.INVALID_USERNAME_TAKEN.getCode(), ex);
+        log.error("ErrorCode="+ErrorCode.INVALID_USERNAME_TAKEN.getCode(), ex);
         return buildResponseError(HttpStatus.BAD_REQUEST, ex, ErrorCode.INVALID_USERNAME_TAKEN);
     }
 
     @ExceptionHandler(EmailTakenException.class)
     public ResponseEntity<ErrorResponse> handle(EmailTakenException ex) {
-        log.error(ErrorCode.INVALID_EMAIL_TAKEN.getCode(), ex);
+        log.error("ErrorCode="+ErrorCode.INVALID_EMAIL_TAKEN.getCode(), ex);
         return buildResponseError(HttpStatus.BAD_REQUEST, ex, ErrorCode.INVALID_EMAIL_TAKEN);
     }
 
     @ExceptionHandler(RoleNotFoundException.class)
     public ResponseEntity<ErrorResponse> handle(RoleNotFoundException ex) {
-        log.error(ErrorCode.USER_ROLE_NOT_FOUND.getCode(), ex);
+        log.error("ErrorCode="+ErrorCode.USER_ROLE_NOT_FOUND.getCode(), ex);
         return buildResponseError(HttpStatus.BAD_REQUEST, ex, ErrorCode.USER_ROLE_NOT_FOUND);
     }
 
@@ -129,7 +129,6 @@ public class ErrorHandler {
                 .detail(String.format("%s: %s", ex.getClass().getCanonicalName(), ex.getMessage()))
                 .status(httpStatus.value())
                 .code(errorCode.value())
-                //.errorInternalCode(errorCode.value())
                 .resource(httpServletRequest.getRequestURI())
                 .errorDescription(errorCode.getDetail())
                 .errorCode(errorCode.getCode())
