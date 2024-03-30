@@ -8,10 +8,13 @@ import com.groupal.king.store.adapter.security.exception.TokenRefreshException;
 import com.groupal.king.store.application.exception.*;
 import com.groupal.king.store.domain.ErrorMessage;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ValidationException;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -45,6 +48,24 @@ public class ErrorHandler {
     public ResponseEntity<ErrorResponse> handle(Throwable ex) {
         log.error("ErrorCode="+HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), ex);
         return buildResponseError(HttpStatus.INTERNAL_SERVER_ERROR,ex, ErrorCode.INTERNAL_ERROR);
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ErrorResponse> handle(ValidationException ex) {
+        log.error("ErrorCode="+HttpStatus.BAD_REQUEST.getReasonPhrase(), ex);
+        return buildResponseError(HttpStatus.BAD_REQUEST,ex, ErrorCode.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handle(MethodArgumentNotValidException ex) {
+        log.error("ErrorCode="+HttpStatus.BAD_REQUEST.getReasonPhrase(), ex);
+        return buildResponseError(HttpStatus.BAD_REQUEST,ex, ErrorCode.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> handle(HttpMessageNotReadableException ex) {
+        log.error("ErrorCode="+HttpStatus.BAD_REQUEST.getReasonPhrase(), ex);
+        return buildResponseError(HttpStatus.BAD_REQUEST,ex, ErrorCode.BAD_REQUEST);
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)

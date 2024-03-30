@@ -1,7 +1,9 @@
 package com.groupal.king.store.application.port.in;
 
 import com.groupal.king.store.domain.Product;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Value;
 
@@ -12,18 +14,26 @@ public interface UpdateProductCommand {
     @Value
     @Builder
     class Command {
+        @NotBlank(message = "Name mustn't be blank")
         String name;
+
         @NotBlank(message = "Description mustn't be blank")
         String description;
-        @NotBlank(message = "Price mustn't be blank")
+
+        @NotNull(message = "Price mustn't be null")
+        @Min(0)
         Double price;
-        @NotBlank(message = "Image mustn't be blank")
+
         String image;
-        @NotBlank(message = "Image mustn't be blank")
+
+        @NotNull(message = "Image mustn't be null")
+        @Min(1)
         Integer stock;
-        @NotBlank(message = "Image mustn't be blank")
+
+        @NotNull(message = "Image mustn't be null")
         Long categoryId;
-        @NotBlank(message = "Active mustn't be blank")
+
+        @NotNull(message = "Active mustn't be null")
         Boolean active;
 
         public Product toDomain() {

@@ -5,6 +5,7 @@ import com.groupal.king.store.application.port.in.GetProductByIdQuery;
 import com.groupal.king.store.application.port.in.GetProductsQuery;
 import com.groupal.king.store.application.port.in.CreateProductCommand;
 import com.groupal.king.store.application.port.in.UpdateProductCommand;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +45,7 @@ public class ProductController {
     }
 
     @PostMapping("")
-    public ProductRest createProduct(@RequestBody CreateProductCommand.Command command) {
+    public ProductRest createProduct(@Valid @RequestBody CreateProductCommand.Command command) {
         log.info(">> Execute controller with body: {}", command);
 
         var product = productCommand.execute(command);
@@ -55,7 +56,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ProductRest updateProduct(@PathVariable Long id, @RequestBody UpdateProductCommand.Command command) {
+    public ProductRest updateProduct(@PathVariable Long id, @Valid @RequestBody UpdateProductCommand.Command command) {
         log.info(">> Execute controller with body: {}", command);
 
         var product = updateProductCommand.execute(command, id);
