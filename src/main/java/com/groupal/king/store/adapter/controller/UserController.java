@@ -5,6 +5,7 @@ import com.groupal.king.store.application.port.in.CreateUserCommand;
 import com.groupal.king.store.application.port.in.GetUserByIdQuery;
 import com.groupal.king.store.application.port.in.GetUsersQuery;
 import com.groupal.king.store.application.port.in.UpdateUserCommand;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +47,7 @@ public class UserController {
     }
 
     @PostMapping("")
-    public UserRest createUser(@RequestBody CreateUserCommand.Command command) {
+    public UserRest createUser(@RequestBody @Valid CreateUserCommand.Command command) {
         log.info(">> Execute controller with body: {}", command);
 
         var user = createUserCommand.execute(command);
@@ -57,7 +58,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public UserRest updateUser(@PathVariable Long id, @RequestBody UpdateUserCommand.Command command) {
+    public UserRest updateUser(@PathVariable Long id, @Valid @RequestBody UpdateUserCommand.Command command) {
         log.info(">> Execute controller with body: {}", command);
 
         var user = updateUserCommand.execute(command, id);

@@ -2,6 +2,7 @@ package com.groupal.king.store.application.port.in;
 
 import com.groupal.king.store.domain.User;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Value;
 
@@ -32,7 +33,7 @@ public interface CreateUserCommand {
         String birthDate;
         @NotBlank(message = "Phone mustn't be blank")
         String phone;
-        @NotBlank(message = "Roles mustn't be blank")
+        @NotNull(message = "Roles mustn't be null")
         Set<String> roles;
 
         public User toDomain() {

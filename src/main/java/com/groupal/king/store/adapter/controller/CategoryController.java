@@ -5,6 +5,7 @@ import com.groupal.king.store.application.port.in.CategoryCommand;
 import com.groupal.king.store.application.port.in.GetCategoriesQuery;
 import com.groupal.king.store.application.port.in.GetCategoryByIdQuery;
 import com.groupal.king.store.application.port.in.UpdateCategoryCommand;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +45,7 @@ public class CategoryController {
     }
 
     @PostMapping("")
-    public CategoryRest createCategory(@RequestBody CategoryCommand.Command command) {
+    public CategoryRest createCategory(@Valid @RequestBody CategoryCommand.Command command) {
         log.info(">> Execute controller with body: {}", command);
 
         var product = categoryCommand.execute(command);
@@ -55,7 +56,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public CategoryRest updateCategory(@PathVariable Long id, @RequestBody UpdateCategoryCommand.Command command) {
+    public CategoryRest updateCategory(@PathVariable Long id, @Valid @RequestBody UpdateCategoryCommand.Command command) {
         log.info(">> Execute controller with body: {}", command);
 
         var category = updateCategoryCommand.execute(command, id);

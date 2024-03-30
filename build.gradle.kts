@@ -48,7 +48,8 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
 	//swagger
-	implementation("org.springdoc:springdoc-openapi-ui:1.6.15")
+	//implementation ("io.springfox:springfox-boot-starter:3.0.0") // o la versión más reciente
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 
 	// Logstash
 	implementation ("net.logstash.logback:logstash-logback-encoder:6.4")

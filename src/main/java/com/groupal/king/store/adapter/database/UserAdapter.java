@@ -106,7 +106,7 @@ public class UserAdapter implements UserRepository {
                 .lastname(user.getLastname())
                 .username(user.getEmail())
                 .email(user.getEmail())
-                //.password(encoder.encode(user.getPassword()))
+                .password(encoder.encode(user.getPassword()))
                 .gender(user.getGender())
                 .birthDate(user.getBirthDate())
                 .phone(user.getPhone())

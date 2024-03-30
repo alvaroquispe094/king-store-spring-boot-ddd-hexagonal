@@ -14,26 +14,32 @@ public interface CreateProductCommand {
     @Value
     @Builder
     class Command {
+        //@Schema(description = "Nombre del producto", example = "iPhone 15 Pro Max")
         @NotBlank(message = "Name mustn't be blank")
         String name;
 
         @NotBlank(message = "Description mustn't be blank")
+        //@Schema(description = "Nombre del producto", example = "iPhone 15 Pro Max")
         String description;
 
         @NotNull(message = "Price mustn't be null")
         @Min(0)
+        //@Schema(description = "Nombre del producto", example = "iPhone 15 Pro Max")
         Double price;
 
         String image;
 
         @NotNull(message = "Image mustn't be null")
         @Min(1)
+        //@Schema(description = "Nombre del producto", example = "iPhone 15 Pro Max")
         Integer stock;
 
         @NotNull(message = "Image mustn't be null")
+        //@Schema(description = "Nombre del producto", example = "iPhone 15 Pro Max")
         Long categoryId;
 
         @NotNull(message = "Active mustn't be null")
+        //@Schema(description = "Nombre del producto", example = "iPhone 15 Pro Max")
         Boolean active;
 
 

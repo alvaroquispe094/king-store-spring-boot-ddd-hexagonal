@@ -62,7 +62,8 @@ public class WebSecurityConfig {
         return authConfig.getAuthenticationManager();
     }
 
-    private static final String[] WHITE_LIST_URL = {"/api/v1/auth/**",
+    private static final String[] WHITE_LIST_URL = {
+            "/api-docs",
             "/v2/api-docs",
             "/v3/api-docs",
             "/v3/api-docs/**",
@@ -72,7 +73,8 @@ public class WebSecurityConfig {
             "/configuration/security",
             "/swagger-ui/**",
             "/webjars/**",
-            "/swagger-ui.html"};
+            "/swagger-ui/index.html"
+    };
 
 	@Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

@@ -14,8 +14,10 @@ public interface SignInCommand {
     class Command {
 
         @NotBlank(message = "Email mustn't be blank")
+        //@Schema(description = "Email not yet existing", example = "fulanito@test.com")
         String email;
         @NotBlank(message = "Password mustn't be blank")
+        //@Schema(description = "Password", example = "123456")
         String password;
     }
 }
