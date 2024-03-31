@@ -1,4 +1,4 @@
-package com.groupal.king.store.adapter.controller.model;
+package com.groupal.king.store.adapter.controller.model.out;
 
 
 import com.groupal.king.store.domain.Category;
@@ -10,22 +10,22 @@ import java.util.stream.Collectors;
 
 @Value
 @Builder
-public class CategoryRest {
+public class CategoryResponse {
     Long id;
     String name;
     Boolean active;
 
-    public static CategoryRest fromDomain(Category category){
-        return CategoryRest.builder()
+    public static CategoryResponse fromDomain(Category category){
+        return CategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
                 .active(category.getActive())
                 .build();
     }
 
-    public static List<CategoryRest> listFromDomain(List<Category> categories){
+    public static List<CategoryResponse> listFromDomain(List<Category> categories){
         return categories.stream()
-                        .map(CategoryRest::fromDomain)
+                        .map(CategoryResponse::fromDomain)
                         .collect(Collectors.toList());
     }
 

@@ -57,10 +57,12 @@ public class ProductDbAdapter implements ProductRepository {
     }
 
     @Override
-    public Product updateProduct(Product product) {
+    public Product updateProduct(Product product, Long id) {
         log.info(">> Update product with: {}", product);
 
         ProductModel productModel = ProductModel.fromDomain(product);
+        productModel.setId(id);
+
         var response = repository.save(productModel);
 
         log.info("Update in db a product with response {}", response);

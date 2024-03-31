@@ -1,4 +1,4 @@
-package com.groupal.king.store.adapter.controller.model;
+package com.groupal.king.store.adapter.controller.model.out;
 
 import com.groupal.king.store.domain.Product;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 @Value
 @Builder
-public class ProductRest {
+public class ProductResponse {
     Long id;
     String name;
     String description;
@@ -19,8 +19,8 @@ public class ProductRest {
     String category;
     Boolean active;
 
-    public static ProductRest fromDomain(Product product){
-        return ProductRest.builder()
+    public static ProductResponse fromDomain(Product product){
+        return ProductResponse.builder()
                 .id(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())
@@ -32,9 +32,9 @@ public class ProductRest {
                 .build();
     }
 
-    public static List<ProductRest> listFromDomain(List<Product> products){
+    public static List<ProductResponse> listFromDomain(List<Product> products){
         return products.stream()
-                        .map(ProductRest::fromDomain)
+                        .map(ProductResponse::fromDomain)
                         .collect(Collectors.toList());
     }
 

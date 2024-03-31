@@ -1,6 +1,6 @@
 package com.groupal.king.store.adapter.controller;
 
-import com.groupal.king.store.adapter.controller.model.CategoryRest;
+import com.groupal.king.store.adapter.controller.model.out.CategoryResponse;
 import com.groupal.king.store.application.port.in.CategoryCommand;
 import com.groupal.king.store.application.port.in.GetCategoriesQuery;
 import com.groupal.king.store.application.port.in.GetCategoryByIdQuery;
@@ -24,43 +24,43 @@ public class CategoryController {
     private final UpdateCategoryCommand updateCategoryCommand;
 
     @GetMapping
-    public List<CategoryRest> getAllCategories() {
+    public List<CategoryResponse> getAllCategories() {
         log.info(">>Execute controller");
 
-        var response = CategoryRest.listFromDomain(getCategoriesQuery.execute());
+        var response = CategoryResponse.listFromDomain(getCategoriesQuery.execute());
 
         log.info("<< Request successfully executed");
         return response;
     }
 
     @GetMapping("/{id}")
-    public CategoryRest getCategoryById(@PathVariable Long id) {
+    public CategoryResponse getCategoryById(@PathVariable Long id) {
         log.info(">> Execute controller with parameter id = {}", id);
 
         var category = getCategoryByIdQuery.execute(id);
-        var response = CategoryRest.fromDomain(category);
+        var response = CategoryResponse.fromDomain(category);
 
         log.info("<< Request successfully executed with response {}", response);
         return response;
     }
 
     @PostMapping("")
-    public CategoryRest createCategory(@Valid @RequestBody CategoryCommand.Command command) {
+    public CategoryResponse createCategory(@Valid @RequestBody CategoryCommand.Command command) {
         log.info(">> Execute controller with body: {}", command);
 
         var product = categoryCommand.execute(command);
-        var response = CategoryRest.fromDomain(product);
+        var response = CategoryResponse.fromDomain(product);
 
         log.info("<< Request successfully executed with response {}", response);
         return response;
     }
 
     @PutMapping("/{id}")
-    public CategoryRest updateCategory(@PathVariable Long id, @Valid @RequestBody UpdateCategoryCommand.Command command) {
+    public CategoryResponse updateCategory(@PathVariable Long id, @Valid @RequestBody UpdateCategoryCommand.Command command) {
         log.info(">> Execute controller with body: {}", command);
 
         var category = updateCategoryCommand.execute(command, id);
-        var response = CategoryRest.fromDomain(category);
+        var response = CategoryResponse.fromDomain(category);
 
         log.info("<< Request successfully executed with response {}", response);
         return response;

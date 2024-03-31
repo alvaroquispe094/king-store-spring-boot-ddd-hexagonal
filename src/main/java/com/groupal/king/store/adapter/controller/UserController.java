@@ -1,6 +1,6 @@
 package com.groupal.king.store.adapter.controller;
 
-import com.groupal.king.store.adapter.controller.model.UserRest;
+import com.groupal.king.store.adapter.controller.model.out.UserResponse;
 import com.groupal.king.store.application.port.in.CreateUserCommand;
 import com.groupal.king.store.application.port.in.GetUserByIdQuery;
 import com.groupal.king.store.application.port.in.GetUsersQuery;
@@ -24,45 +24,45 @@ public class UserController {
     private final GetUserByIdQuery getUserByIdQuery;
 
     @GetMapping
-    public List<UserRest> getAllUserss(
+    public List<UserResponse> getAllUserss(
             @RequestParam(required = false, defaultValue = "") String role
     ) {
         log.info(">>Execute controller");
 
-        var response = UserRest.listFromDomain(getUsersQuery.execute(role));
+        var response = UserResponse.listFromDomain(getUsersQuery.execute(role));
 
         log.info("<< Request successfully executed");
         return response;
     }
 
     @GetMapping("/{id}")
-    public UserRest getUserById(@PathVariable Long id) {
+    public UserResponse getUserById(@PathVariable Long id) {
         log.info(">> Execute controller with parameter id = {}", id);
 
         var user = getUserByIdQuery.execute(id);
-        var response = UserRest.fromDomain(user);
+        var response = UserResponse.fromDomain(user);
 
         log.info("<< Request successfully executed with response {}", response);
         return response;
     }
 
     @PostMapping("")
-    public UserRest createUser(@RequestBody @Valid CreateUserCommand.Command command) {
+    public UserResponse createUser(@RequestBody @Valid CreateUserCommand.Command command) {
         log.info(">> Execute controller with body: {}", command);
 
         var user = createUserCommand.execute(command);
-        var response = UserRest.fromDomain(user);
+        var response = UserResponse.fromDomain(user);
 
         log.info("<< Request successfully executed with response {}", response);
         return response;
     }
 
     @PutMapping("/{id}")
-    public UserRest updateUser(@PathVariable Long id, @Valid @RequestBody UpdateUserCommand.Command command) {
+    public UserResponse updateUser(@PathVariable Long id, @Valid @RequestBody UpdateUserCommand.Command command) {
         log.info(">> Execute controller with body: {}", command);
 
         var user = updateUserCommand.execute(command, id);
-        var response = UserRest.fromDomain(user);
+        var response = UserResponse.fromDomain(user);
 
         log.info("<< Request successfully executed with response {}", response);
         return response;

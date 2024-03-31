@@ -1,4 +1,4 @@
-package com.groupal.king.store.adapter.controller.model;
+package com.groupal.king.store.adapter.controller.model.out;
 
 import com.groupal.king.store.domain.User;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Value
 @Builder
-public class UserRest {
+public class UserResponse {
     Long id;
     String firstname;
     String lastname;
@@ -22,8 +22,8 @@ public class UserRest {
     String phone;
     Set<String> roles;
 
-    public static UserRest fromDomain(User user){
-        return UserRest.builder()
+    public static UserResponse fromDomain(User user){
+        return UserResponse.builder()
                 .id(user.getId())
                 .firstname(user.getFirstname())
                 .lastname(user.getLastname())
@@ -37,9 +37,9 @@ public class UserRest {
                 .build();
     }
 
-    public static List<UserRest> listFromDomain(List<User> users){
+    public static List<UserResponse> listFromDomain(List<User> users){
         return users.stream()
-                        .map(UserRest::fromDomain)
+                        .map(UserResponse::fromDomain)
                         .collect(Collectors.toList());
     }
 

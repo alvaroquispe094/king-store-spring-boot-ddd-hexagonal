@@ -13,6 +13,6 @@ public interface ProductRepository {
 
     Product findById(Long id);
 
-    Product updateProduct(Product product);
+    Product updateProduct(Product product, Long id);
 
 }

@@ -15,10 +15,10 @@ public class ProductCreateUseCase implements CreateProductCommand {
     private final ProductRepository productRepository;
 
     @Override
-    public Product execute(Command command) {
-        log.info(">> Execute use case create product with request domain: {}", command.toDomain());
+    public Product execute(Product product) {
+        log.info(">> Execute use case create product with request domain: {}", product);
 
-        var response = productRepository.createProduct(command.toDomain());
+        var response = productRepository.createProduct(product);
 
         log.info("<< Use case successfully processed with response domain: {}", response);
         return response;

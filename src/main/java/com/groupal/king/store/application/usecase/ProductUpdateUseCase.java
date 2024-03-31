@@ -15,10 +15,10 @@ public class ProductUpdateUseCase implements UpdateProductCommand {
     private final ProductRepository productRepository;
 
     @Override
-    public Product execute(Command command, Long id) {
-        log.info(">> Execute use case update product with request domain: {}", command.toDomain());
+    public Product execute(Product product, Long id) {
+        log.info(">> Execute use case update product with request domain: {}", product);
 
-        var response = productRepository.updateProduct(command.toDomain(id));
+        var response = productRepository.updateProduct(product, id);
 
         log.info("<< Use case successfully processed with response domain: {}", response);
         return response;
