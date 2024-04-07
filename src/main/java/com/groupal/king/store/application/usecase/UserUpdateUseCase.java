@@ -15,10 +15,10 @@ public class UserUpdateUseCase implements UpdateUserCommand {
     private final UserRepository userRepository;
 
     @Override
-    public User execute(Command command, Long id) {
-        log.info(">> Execute use case update product with request domain: {}", command.toDomain());
+    public User execute(User user, Long id) {
+        log.info(">> Execute use case update product with request domain: {}", user);
 
-        var response = userRepository.updateUser(command.toDomain());
+        var response = userRepository.updateUser(user, id);
 
         log.info("<< Use case successfully processed with response domain: {}", response);
         return response;

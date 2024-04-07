@@ -74,7 +74,6 @@ public class UserAdapter implements UserRepository {
         log.info(">> Create a new user with: {}", user);
 
         var roles = this.mapRoles(user.getRoles());
-
         UserModel userModel = UserModel.builder()
                 .id(user.getId())
                 .firstname(user.getFirstname())
@@ -95,13 +94,12 @@ public class UserAdapter implements UserRepository {
     }
 
     @Override
-    public User updateUser(User user) {
+    public User updateUser(User user, Long id) {
         log.info(">> Update user with: {}", user);
 
         var roles = this.mapRoles(user.getRoles());
-
         UserModel userModel = UserModel.builder()
-                .id(user.getId())
+                .id(id)
                 .firstname(user.getFirstname())
                 .lastname(user.getLastname())
                 .username(user.getEmail())

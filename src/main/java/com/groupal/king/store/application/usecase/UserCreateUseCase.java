@@ -17,14 +17,14 @@ public class UserCreateUseCase implements CreateUserCommand {
     private final UserRepository userRepository;
 
     @Override
-    public User execute(Command command) {
-        log.info(">> Execute use case create user with request domain: {}", command.toDomain());
+    public User execute(User user) {
+        log.info(">> Execute use case create user with request domain: {}", user);
 
-        if (userRepository.existsByEmail(command.getEmail())) {
+        if (userRepository.existsByEmail(user.getEmail())) {
             throw new EmailTakenException(ErrorCode.INVALID_EMAIL_TAKEN);
         }
 
-        var response = userRepository.createUser(command.toDomain());
+        var response = userRepository.createUser(user);
 
         log.info("<< Use case successfully processed with response domain: {}", response);
         return response;

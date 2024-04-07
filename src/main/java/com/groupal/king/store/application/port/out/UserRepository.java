@@ -14,7 +14,7 @@ public interface UserRepository {
 
     User findById(Long id);
 
-    User updateUser(User user);
+    User updateUser(User user, Long id);
 
     Boolean existsByEmail(String email);
 

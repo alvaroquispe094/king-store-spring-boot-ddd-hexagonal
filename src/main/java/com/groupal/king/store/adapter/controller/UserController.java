@@ -1,5 +1,6 @@
 package com.groupal.king.store.adapter.controller;
 
+import com.groupal.king.store.adapter.controller.model.in.UserRequest;
 import com.groupal.king.store.adapter.controller.model.out.UserResponse;
 import com.groupal.king.store.application.port.in.CreateUserCommand;
 import com.groupal.king.store.application.port.in.GetUserByIdQuery;
@@ -47,10 +48,10 @@ public class UserController {
     }
 
     @PostMapping("")
-    public UserResponse createUser(@RequestBody @Valid CreateUserCommand.Command command) {
-        log.info(">> Execute controller with body: {}", command);
+    public UserResponse createUser(@RequestBody @Valid UserRequest userRequest) {
+        log.info(">> Execute controller with body: {}", userRequest);
 
-        var user = createUserCommand.execute(command);
+        var user = createUserCommand.execute(userRequest.toDomain());
         var response = UserResponse.fromDomain(user);
 
         log.info("<< Request successfully executed with response {}", response);
@@ -58,10 +59,10 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public UserResponse updateUser(@PathVariable Long id, @Valid @RequestBody UpdateUserCommand.Command command) {
-        log.info(">> Execute controller with body: {}", command);
+    public UserResponse updateUser(@PathVariable Long id, @Valid @RequestBody UserRequest userRequest) {
+        log.info(">> Execute controller with body: {}", userRequest);
 
-        var user = updateUserCommand.execute(command, id);
+        var user = updateUserCommand.execute(userRequest.toDomain(), id);
         var response = UserResponse.fromDomain(user);
 
         log.info("<< Request successfully executed with response {}", response);
