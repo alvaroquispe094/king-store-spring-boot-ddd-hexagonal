@@ -1,6 +1,6 @@
 package com.groupal.king.store.config;
 
-import net.logstash.logback.encoder.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public abstract class GenericException extends RuntimeException {
 

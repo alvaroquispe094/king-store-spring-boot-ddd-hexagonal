@@ -2,6 +2,7 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.1.5"
 	id("io.spring.dependency-management") version "1.1.3"
+	id("jacoco")
 }
 
 group = "com.groupal"
@@ -52,7 +53,7 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 
 	// Logstash
-	implementation ("net.logstash.logback:logstash-logback-encoder:6.4")
+	implementation("net.logstash.logback:logstash-logback-encoder:7.2")
 
 	// ArchUnit
 	testImplementation("com.tngtech.archunit:archunit:0.23.1")
@@ -78,4 +79,44 @@ tasks.withType<Test> {
 
 tasks.bootBuildImage {
 	builder.set("paketobuildpacks/builder-jammy-base:latest")
+}
+
+jacoco {
+	toolVersion = "0.8.10"
+}
+
+tasks.jacocoTestReport {
+	dependsOn(tasks.test) // Asegura que los tests se ejecuten antes del reporte
+
+	reports {
+		//xml.required.set(true) // Para la integración con otras herramientas
+		html.required.set(true) // Para generar un reporte HTML
+	}
+}
+
+tasks.jacocoTestCoverageVerification {
+	dependsOn(tasks.jacocoTestReport) // Verificación después del reporte
+	violationRules {
+		rule {
+			limit {
+				counter = "INSTRUCTION" // Contar líneas de código
+				value = "COVEREDRATIO"
+				minimum = "0.00".toBigDecimal() // Umbral del 0% de cobertura por el momento, hasta hacer los tests
+			}
+		}
+	}
+}
+
+tasks.check {
+	dependsOn(tasks.jacocoTestCoverageVerification) // Falla si no se cumple el umbral de cobertura
+}
+
+tasks.build {
+	dependsOn(tasks.test) // Ejecutar las pruebas antes del build
+	dependsOn(tasks.jacocoTestReport) // Generar el reporte como parte del build
+	dependsOn(tasks.jacocoTestCoverageVerification) // Verificar la cobertura como parte del build
+}
+
+tasks.test {
+	finalizedBy(tasks.jacocoTestCoverageVerification) // Ejecuta el reporte después de los tests.
 }

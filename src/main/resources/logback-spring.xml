@@ -1,0 +1,32 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{dd/MM/yyyy HH:mm:ss.SSS Z} %highlight(%-5level) [%logger{0}][%M] - %replace(%msg){'password\" : \".*', 'password" : "########"'}%n </pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <springProfile name="dev,uat,prod">
+        <springProperty scope="context" name="springProfile" source="spring.profiles.active" defaultValue="dev"/>
+        <appender name="CLOUDWATCH-Info" class="ca.pjer.logback.AwsLogsAppender">
+            <logGroupName>ms-merchants</logGroupName>
+            <logStreamUuidPrefix>${springProfile}-info-</logStreamUuidPrefix>
+            <logRegion>us-east-1</logRegion>
+
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>INFO</level>
+            </filter>
+            <layout>
+                <pattern>%-5level [%logger{0}][%M] - %replace(%msg){'password\" : \".*', 'password" : "########"'}%n </pattern>
+            </layout>
+        </appender>
+
+        <root level="info">
+            <appender-ref ref="CLOUDWATCH-Info" />
+        </root>
+    </springProfile>
+
+</configuration>
